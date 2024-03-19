@@ -1,6 +1,7 @@
 ﻿using Usable;
 using Manager;
 using Process;
+using Equipments;
 
 namespace Entities
 {
@@ -8,20 +9,20 @@ namespace Entities
     {
         public int CurHP { get; set; }
         public int MaxHP { get; set; }
-        public int Atk { get; protected set; }
-        public int Def { get; protected set; }
+        public int Atk { get; set; }
+        public int Def { get;  set; }
         public string Name { get; protected set; }
         public void Attack(Entity unit)
         {
             int dmg = Atk - unit.Def;
             if (dmg < 1) dmg = 1;
             unit.CurHP -= dmg;
-            Console.WriteLine($"\n{Name}의 {unit.Name} 공격!");
+            Console.WriteLine($"\n{Name}'s Attack On {unit.Name}!");
         }
 
         public void Defense()
         {
-            Console.WriteLine($"{Name}의 방어!");
+            Console.WriteLine($"{Name}'s Defense!");
             CurHP += 2 * Def;
         }
 
@@ -30,7 +31,6 @@ namespace Entities
             if (CurHP > 0) return false;
             else return true;
         }
-
     }
 
 
@@ -51,6 +51,7 @@ namespace Entities
         List<Item> inventory;
         List<Skill> skills;
         SkillManager sM;
+        Equip[] Einven;
         public List<Item> Inventory { get { return inventory; } }
         public List<Skill> GetSkills() { return skills; }
 
@@ -58,18 +59,19 @@ namespace Entities
         {
             MaxHP = 100;
             CurHP = 100;
-            Atk = 30;
+            Atk = 10;
             Def = 1;
             CurMP = 50;
             LV = 1;
             curEXP = 0;
             Gold = 200;
             maxEXP = 50;
-            Name = "플레이어";
+            Name = "Player";
             inventory = new List<Item>();
             OnLevelUp += LevelUpStat;
             sM = new SkillManager(this);
-            skills = sM.GetRTL();
+            skills = sM.GetSkillsUsable();
+            Einven = new EquipManager(this).GetEquipped();
         }
 
         public void LevelUpStat()
@@ -79,15 +81,17 @@ namespace Entities
             Def++;
             Atk += LV * 3;
 
-            CurHP = MaxHP;
-            CurMP = MaxMP;
-
-            Console.WriteLine("레벨 업!");
-            Console.WriteLine($"HP가 {LV * 10} 만큼 올랐다!");
-            Console.WriteLine($"MP가 {LV * 5} 만큼 올랐다!");
-            Console.WriteLine($"Atk가 {LV * 3} 만큼 올랐다!");
-            Console.WriteLine($"Def가 1 만큼 올랐다!");
-            Console.WriteLine("HP와 MP가 모두 회복되었다!");
+            FullRecover();
+            Console.Clear();
+            Console.WriteLine("***************Level Up!*****************");
+            Console.WriteLine($"*\tHP increases about {LV * 10}!\t\t*");
+            Console.WriteLine($"*\tMP increases about {LV * 5}!\t\t*");
+            Console.WriteLine($"*\tAtk increases about {LV * 3}!\t\t*");
+            Console.WriteLine($"*\tDef increases about 1!\t\t*");
+            Console.WriteLine("*\tHP & MP Fully Recovered!\t*");
+            Console.WriteLine("*****************************************");
+            Console.WriteLine($"\t   Player's Level : {LV}");
+            Console.ReadLine();
         }
 
         public void CheckLevelUp()
@@ -101,13 +105,18 @@ namespace Entities
             }
         }
 
+        public void FullRecover()
+        {
+            CurHP = MaxHP;
+            CurMP = MaxMP;
+        }
 
 
 
 
         public void Use(IUsable item, Entity dest)
         {
-            if (item == null) { Console.WriteLine("사용할 수 없습니다."); return; }
+            if (item == null) { Console.WriteLine("Can't Use"); return; }
             item.Use(dest);
         }
 

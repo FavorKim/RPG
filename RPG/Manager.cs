@@ -2,6 +2,7 @@
 using Process;
 using System.Reflection.Metadata.Ecma335;
 using Usable;
+using Equipments;
 
 namespace Manager
 {
@@ -23,8 +24,8 @@ namespace Manager
     class ItemManager
     {
         public ItemManager(List<Item> inventory) { this.inventory = inventory; }
-        
-        public void GetItem(Item item)
+
+        public void AddInven(Item item)
         {
             EmptyRemover();
 
@@ -38,7 +39,7 @@ namespace Manager
             {
                 for (int i = 0; i < inventory.Count; i++)
                 {
-                    if (inventory[i].GetName() == item.GetName())
+                    if (inventory[i].Name == item.Name)
                     {
                         already++;
                         index = i;
@@ -72,28 +73,32 @@ namespace Manager
             EmptyRemover();
 
             if (inventory.Count == 0)
-                Console.WriteLine("인벤토리가 비어있습니다.");
+                Console.WriteLine("Inventory is Empty");
 
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("┌─────────────Inventory───────────┐");
             for (int i = 0; i < inventory.Count; i++)
-                Console.WriteLine($"{inventory[i].GetName()} : {inventory[i].Consume}ea");
+                Console.WriteLine($"│\t{i + 1}. {inventory[i].Name} : {inventory[i].Consume}ea\t  │");
+            Console.WriteLine("└─────────────────────────────────┘");
         }
 
-        
+
     }
 
     class SkillManager
     {
-        List<Skill> RTL;
+        List<Skill> SkillsUsable;
         List<Skill> skills;
         Player player;
         Entity dest;
         public SkillManager(Player player)
         {
             this.player = player;
-            RTL = new List<Skill>();
+            SkillsUsable = new List<Skill>();
             skills = new List<Skill>();
             skills.Add(new Slash(player));
-            player.OnLevelUp += SetRTL;
+            skills.Add(new Rage(player));
+            player.OnLevelUp += SetSkills;
         }
 
         public Skill CanGet(Skill skill)
@@ -111,7 +116,7 @@ namespace Manager
                     return null;
             }
         }
-        public void SetRTL()
+        public void SetSkills()
         {
             Skill skill;
             foreach (Skill s in skills)
@@ -119,12 +124,117 @@ namespace Manager
                 skill = CanGet(s);
                 if (skill == null)
                     continue;
-                RTL.Add(skill);
+                SkillsUsable.Add(skill);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine($"─────────{s.name} Skill Learned!────────");
+                Console.ResetColor();
+                Console.ReadLine();
             }
         }
-        public List<Skill> GetRTL() { return RTL; }
+        public List<Skill> GetSkillsUsable() { return SkillsUsable; }
 
     }
+
+    class EquipManager
+    {
+        Equip[] Equipped = new Equip[(int)Parts.Max];
+        List<Equip> EInven = new List<Equip>();
+        Player player;
+
+        public EquipManager(Player player)
+        {
+            this.player = player;
+            for(int i = 0; i < (int)Parts.Max; i++)
+            {
+                Equipped[i] = new Equip();
+                Equipped[i].part = (Parts)i;
+            }
+        }
+
+
+        public void Equips(Equip equip)
+        {
+            if (player.LV < equip.equipLV)
+            {
+                Console.WriteLine("Not Enough Level");
+                Console.ReadLine();
+                return;
+            }
+            if (Equipped[(int)equip.part].isEquipped)
+                UnEquip(Equipped[(int)equip.part]);
+
+            equip.isEquipped = true;
+            Equipped[(int)equip.part] = equip;
+            EStatUp(equip);
+            RemoveEinven(equip);
+        }
+
+        public void UnEquip(Equip equip)
+        {
+            Equipped[(int)equip.part].isEquipped = false;
+            UEStatDown(Equipped[(int)equip.part]);
+            EInven.Add(Equipped[(int)equip.part]);
+            Array.Clear(Equipped, (int)equip.part, 1);
+
+            equip.isEquipped = true;
+            Equipped[(int)equip.part] = equip;
+        }
+
+        public void EStatUp(Equip equip)
+        {
+            if (equip.part == Parts.Weapon)
+                player.Atk += equip.Value;
+            else
+                player.Def += equip.Value;
+        }
+
+        public void UEStatDown(Equip equip)
+        {
+            if (equip.part == Parts.Weapon)
+                player.Atk -= equip.Value;
+            else
+                player.Def -= equip.Value;
+        }
+
+        public void EinvenAdd(Equip equip)
+        {
+            EInven.Add(equip);
+        }
+
+        public void EinvenIndicator()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("┌───Equipmnets Inventory──┐");
+            for(int i=0; i<EInven.Count; i++)
+                Console.WriteLine($"│\t{i + 1}. {EInven[i].Name}\t  │");
+            Console.WriteLine("└─────────────────────────┘");
+            Console.ResetColor();
+        }
+
+        public void ShowEquipped()
+        {
+            Console.WriteLine("┌─────────────────────────┐");
+            for (int i = 0; i < (int)Parts.Max; i++)
+            {
+                if (Equipped[i].Name == null)
+                    Console.WriteLine("│\t   Empty\t  │");
+                else
+                    Console.WriteLine($"│\t   {Equipped[i].Name}\t  │");
+                //Console.WriteLine
+            }
+            Console.WriteLine("└─────────────────────────┘");
+        }
+        
+        public List<Equip> GetEinven() { return EInven; }
+
+        public Equip[] GetEquipped() { return Equipped; }
+
+        public void RemoveEinven(Equip equip)
+        {
+            EInven.Remove(equip);
+        }
+    }
+
     /*
       -획득-
     스킬 획득 가능 레벨 도달시 플레이어는 스킬을 획득

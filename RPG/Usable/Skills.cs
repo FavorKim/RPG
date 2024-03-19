@@ -6,7 +6,7 @@ namespace Usable
         int Consume { get; set; }
         bool Use(Entity unit);
         bool CanUse();
-        abstract void Effect(Entity unit);
+        abstract void Effect(Entity dest);
     }
 
     abstract class Skill : IUsable
@@ -25,18 +25,20 @@ namespace Usable
             this.player = player;
             IsLearned = false; 
         }
-        public bool Use(Entity unit)
+        public bool Use(Entity user)
         {
             if (CanUse())
             {
                 player.CurMP -= Consume;
-                Console.WriteLine("{0}을 {1}에게 사용!", name, dest.Name);
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("{0} On {1}!", name, dest.Name);
+                Console.ResetColor();
                 Effect(dest);
                 return true;
             }
             else
             {
-                Console.WriteLine("사용할 수 없습니다.");
+                Console.WriteLine("Can't Use Skill");
                 return false;
             }
         }
@@ -50,7 +52,7 @@ namespace Usable
             this.dest = dest;
         }
 
-        public abstract void Effect(Entity unit);
+        public abstract void Effect(Entity dest);
     }
 
     class Slash : Skill
@@ -64,7 +66,20 @@ namespace Usable
             IsAttack = true;
         }
 
-        public override void Effect(Entity unit) { unit.CurHP -= value; }
+        public override void Effect(Entity dest) { dest.CurHP -= value; }
+    }
+
+    class Rage : Skill
+    {
+        public Rage(Player player) : base(player) 
+        {
+            value = 10;
+            Consume = 15;
+            SkillLV = 5;
+            name = "Rage";
+            IsAttack = false;
+        }
+        public override void Effect(Entity dest) { dest.Atk += value; dest.MaxHP += value; }
     }
 
     /* 스킬

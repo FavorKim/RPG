@@ -1,22 +1,22 @@
 ﻿using Entities;
+using Equipments;
 
 namespace Usable
 {
-    abstract class Item : IUsable
+    abstract class Item : IUsable, ISellable
     {
         public Item() { Consume = 1; }
-        protected string name;
-        public string GetName() { return name; }
+        public string Name { get; set; }
         public int Consume { get; set; }
-        public int Price { get; protected set; }
-
+        public int Price { get; set; }
+        public bool isItem() { return true; }
 
         public bool Use(Entity unit) 
         {
             if (CanUse())
             {
                 Consume--;
-                Console.WriteLine("{0} 사용!", name);
+                Console.WriteLine("{0} Used!", Name);
                 Effect(unit);
                 return true;
             }
@@ -43,7 +43,7 @@ namespace Usable
                 unit.CurHP = unit.MaxHP;
         }
     }
-    class LowPortion : Portion { public LowPortion() { grade = 1; name = "LowPortion"; Price = 30; } }
-    class NormalPortion : Portion { public NormalPortion() { grade = 2; name = "NormalPortion"; Price = 50; } }
-    class HighPortion : Portion { public HighPortion() { grade = 3; name = "HighPortion"; Price = 70; } }
+    class LowPortion : Portion { public LowPortion() { grade = 1; Name = "LowPortion"; Price = 30; } }
+    class NormalPortion : Portion { public NormalPortion() { grade = 2; Name = "NormalPortion"; Price = 50; } }
+    class HighPortion : Portion { public HighPortion() { grade = 3; Name = "HighPortion"; Price = 70; } }
 }

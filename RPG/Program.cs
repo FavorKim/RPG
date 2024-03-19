@@ -3,6 +3,7 @@ using Process;
 using Usable;
 using Manager;
 using System.Diagnostics;
+using System.Windows;
 
 namespace Main
 {
@@ -10,6 +11,7 @@ namespace Main
     {
         static void Main(string[] args)
         {
+            
             MainProcessor main = new MainProcessor();
             main.MainProcess();
 
@@ -18,20 +20,20 @@ namespace Main
             Player player = new Player();
             SkillManager skillBook = new SkillManager(player);
             Monster dummy = new Dummy();
-            MainProcessor bp = new MainProcessor();
+            MainProcessor battleP = new MainProcessor();
 
-            bp.Indicator(player, dummy);
+            battleP.Indicator(player, dummy);
 
             skillBook.LearnSkill(new TripleSlash(player));
             skillBook.LearnSkill(new Slash(player));
             
             player.Use(skillBook.GetSkill(0),dummy);
             
-            bp.Indicator(player, dummy);
+            battleP.Indicator(player, dummy);
 
             player.Use(skillBook.GetSkill(1), dummy);
 
-            bp.Indicator(player, dummy);
+            battleP.Indicator(player, dummy);
             */
         }
     }
