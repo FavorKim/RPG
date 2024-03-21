@@ -1,38 +1,11 @@
 ﻿using Usable;
-using Manager;
-using Process;
+using Managers;
+using Processors;
 using Equipments;
+using System.Numerics;
 
 namespace Entities
 {
-    class Entity
-    {
-        public int CurHP { get; set; }
-        public int MaxHP { get; set; }
-        public int Atk { get; set; }
-        public int Def { get;  set; }
-        public string Name { get; protected set; }
-        public void Attack(Entity unit)
-        {
-            int dmg = Atk - unit.Def;
-            if (dmg < 1) dmg = 1;
-            unit.CurHP -= dmg;
-            Console.WriteLine($"\n{Name}'s Attack On {unit.Name}!");
-        }
-
-        public void Defense()
-        {
-            Console.WriteLine($"{Name}'s Defense!");
-            CurHP += 2 * Def;
-        }
-
-        public bool IsDead()
-        {
-            if (CurHP > 0) return false;
-            else return true;
-        }
-    }
-
 
     class Player : Entity
     {
@@ -47,46 +20,60 @@ namespace Entities
         public int curEXP { get; set; }
         public int maxEXP { get; set; }
         public int Gold { get; set; }
+        public bool IsLost { get;  set; }
 
         List<Item> inventory;
         List<Skill> skills;
         SkillManager sM;
-        Equip[] Einven;
+        public EquipManager eM;
+        public List<Equip> Equipped;
+        public List<Equip> EInven;
         public List<Item> Inventory { get { return inventory; } }
         public List<Skill> GetSkills() { return skills; }
 
         public Player()
         {
-            MaxHP = 100;
-            CurHP = 100;
-            Atk = 10;
-            Def = 1;
-            CurMP = 50;
+            MaxHP = 50;
+            CurHP = 50;
+            Atk = 5;
+            Def = 0;
+            CurMP = 20;
             LV = 1;
             curEXP = 0;
             Gold = 200;
             maxEXP = 50;
             Name = "Player";
             inventory = new List<Item>();
+
+
             OnLevelUp += LevelUpStat;
             sM = new SkillManager(this);
             skills = sM.GetSkillsUsable();
-            Einven = new EquipManager(this).GetEquipped();
+            //Einven = new EquipManager(this).GetEquipped();
         }
 
+
+        public void SetEM(EquipManager eM)
+        {
+            this.eM = eM; 
+            EInven = eM.GetEinven();
+            Equipped = eM.GetEquipped();
+        }
+
+        public SkillManager GetSkillManager() { return sM; }
         public void LevelUpStat()
         {
-            MaxHP += LV * 10;
-            MaxMP += LV * 5;
+            MaxHP += 10;
+            MaxMP += 5;
             Def++;
-            Atk += LV * 3;
+            Atk += 5;
 
             FullRecover();
             Console.Clear();
             Console.WriteLine("***************Level Up!*****************");
-            Console.WriteLine($"*\tHP increases about {LV * 10}!\t\t*");
-            Console.WriteLine($"*\tMP increases about {LV * 5}!\t\t*");
-            Console.WriteLine($"*\tAtk increases about {LV * 3}!\t\t*");
+            Console.WriteLine($"*\tHP increases about {10}!\t\t*");
+            Console.WriteLine($"*\tMP increases about {5}!\t\t*");
+            Console.WriteLine($"*\tAtk increases about {5}!\t\t*");
             Console.WriteLine($"*\tDef increases about 1!\t\t*");
             Console.WriteLine("*\tHP & MP Fully Recovered!\t*");
             Console.WriteLine("*****************************************");
@@ -111,13 +98,29 @@ namespace Entities
             CurMP = MaxMP;
         }
 
-
-
-
-        public void Use(IUsable item, Entity dest)
+        public void Lose()
         {
-            if (item == null) { Console.WriteLine("Can't Use"); return; }
-            item.Use(dest);
+            curEXP -= curEXP / 10;
+            Gold -= LV * 100;
+            FullRecover();
+            IsLost = true;
+
+            Console.Write($"You Lost{LV * 100}Gold..!");
+            Console.ReadLine();
+            Console.Write($"You Lost{curEXP / 10}EXP..!");
+            Console.ReadLine();
+            Console.Write("Master of the INN Let You Rest");
+            Console.ReadLine();
+            Console.Write("You were Fully Recovered!");
+            Console.ReadLine();
+            Console.Write("Back to the Town");
+        }
+
+
+        public void Use(IUsable item)
+        {
+            if (item == null) return;
+            item.Use();
         }
 
 

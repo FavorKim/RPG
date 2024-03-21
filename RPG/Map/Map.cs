@@ -1,10 +1,9 @@
 ﻿using Entities;
-using Process;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Managers;
+using Processors;
+using Select;
+using Equipments;
+using Selectable;
 
 namespace Mapper
 {
@@ -18,6 +17,7 @@ namespace Mapper
         Shop,
         Dungeon,
         Inn,
+        Status,
         Fail,
     }
 
@@ -56,7 +56,7 @@ namespace Mapper
         public void Select()
         {
 
-            int num = InputProcess.Input(2);
+            int num = InputProcessor.Input(2);
             if (num == 1)
                 Rest();
             else
@@ -69,19 +69,23 @@ namespace Mapper
     class Map
     {
         public Buffer<int> MBuffer;
+        ItemManager iM;
+        EquipManager eM;
+        IndicateProcess iP;
+        MenuSelector iStat;
         public int[,] arr =
         {
 
-            { 0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0 },
-            { 0,0,0,0,0,0,3,2,2,11,11,2,2,4,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,1,0,31,32,33,0,0,1,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,1,0,34,35,36,37,0,1,0,0,0,0,0,0 },
+            { 0,0,0,0,0,0,3,2,2,2,11,11,11,11,2,2,2,4,0,0 },
             { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
             { 2,2,2,6,0,0,0,0,0,0,0,0,0,0,0,0,5,2,2,2 },
-            { 0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 },
-            { 0,0,0,13,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0 },
-            { 0,0,0,13,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0 },
-            { 0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0 },
+            { 51,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,41,0,0 },
+            { 52,0,13,0,0,0,0,0,0,0,0,0,0,0,0,12,0,42,0,0 },
+            { 53,0,13,0,0,0,0,0,0,0,0,0,0,0,0,12,0,42,0,0 },
+            { 54,0,1,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0 },
             { 2,2,2,4,0,0,0,0,0,0,0,0,0,0,0,0,3,2,2,2 },
             { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
             { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
@@ -89,20 +93,43 @@ namespace Mapper
             { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
 
         };
-        int[,] buffer; 
+        void DrawDungeon(int num)
+        {
+            if (num == 31) Console.Write(" D");
+            if (num == 32) Console.Write("U");
+            if (num == 33) Console.Write("N");
+            if (num == 34) Console.Write("G");
+            if (num == 35) Console.Write("E");
+            if (num == 36) Console.Write("O");
+            if (num == 37) Console.Write("N");
+        }
+        void DrawInn(int num)
+        {
+            if (num == 41) Console.Write("I");
+            if (num == 42) Console.Write("N");
+        }
+        void DrawShop(int num)
+        {
+            if (num == 51) Console.Write("S");
+            if (num == 52) Console.Write("H");
+            if (num == 53) Console.Write("O");
+            if (num == 54) Console.Write("P");
+
+        }
+        int[,] buffer;
         int player = 7;
         int pX = 0;
         int pY = 13;
-        ShopProcessor sP;
-        Inn inn;
 
-        public Map(ShopProcessor sP, Inn inn)
+        public Map(ItemManager iM, EquipManager eM, IndicateProcess iP, MenuSelector iStat)
         {
-            MBuffer = new Buffer<int>(20 , 15, MapDrawer, arr);
+            MBuffer = new Buffer<int>(20, 15, MapDrawer, arr);
             buffer = MBuffer.GetArray2();
             arr[pY, pX] = player;
-            this.sP = sP;
-            this.inn = inn;
+            this.iM = iM;
+            this.eM = eM;
+            this.iP = iP;
+            this.iStat = iStat;
         }
 
         public void MapDrawer()
@@ -111,6 +138,8 @@ namespace Mapper
             {
                 for (int k = 0; k < (int)MapSize.Width; k++)
                 {
+                    if (buffer[i, k] < 0)
+                        continue;
                     if (buffer[i, k] == 0)
                         Console.Write(" ");
                     if (buffer[i, k] == 1)
@@ -125,22 +154,26 @@ namespace Mapper
                         Console.Write("┌");
                     if (buffer[i, k] == 6)
                         Console.Write("┐");
-                    if (buffer[i, k] > 10)
+                    if (buffer[i, k] > 10 )
                         Console.Write(" ");
                     if (buffer[i, k] == 7 && buffer[i, k] != 0)
                         Console.Write("◈");
+                    DrawDungeon(buffer[i, k]);
+                    DrawInn(buffer[i, k]);
+                    DrawShop(buffer[i, k]);
                 }
                 Console.WriteLine();
             }
-            
+
         }
 
         public Entering Move()
         {
 
-            ConsoleKeyInfo input;
-            Entering en=Entering.Fail;
+            Entering en = Entering.Fail;
             arr[pY, pX] = 0;
+
+            ConsoleKeyInfo input;
 
             input = Console.ReadKey();
             switch (input.Key)
@@ -164,7 +197,7 @@ namespace Mapper
                         pX += 1;
                     else if (arr[pY, pX + 1] > 10)
                     {
-                        en = Enter(arr[pY, pX + 1]); 
+                        en = Enter(arr[pY, pX + 1]);
                         Console.Clear();
                     }
                     break;
@@ -192,11 +225,23 @@ namespace Mapper
                         Console.Clear();
                     }
                     break;
+
+                case ConsoleKey.Escape:
+                    TextBox temp = (TextBox)iStat.selP.SelectReturn();
+                    
+                    if(temp != null)
+                    {
+                        temp.Use();
+                        Cleaner.CleanBox();
+                        break;
+                    }
+                    Cleaner.CleanBox();
+
+                    break;
                 default:
                     en = Entering.Fail;
                     break;
             }
-
             arr[pY, pX] = player;
             return en;
         }
@@ -220,76 +265,17 @@ namespace Mapper
                 Console.Clear();
                 return Entering.Dungeon;
             }
-            else 
+            else
                 return Entering.Fail;
         }
 
     }
 
-    class Buffer<T>
-    {
-        T[] buffer;
-        T[,] buffer2;
-        T[] org;
-        T[,] org2;
-
-        Action print;
-        int width;
-        int height;
-
-        public Buffer(int size, Action print, T[] org)
-        {
-            buffer = new T[size];
-            this.print = print;
-            this.org = org;
-            DrawBuffer(org);
-        }
-        public Buffer(int width, int height, Action print, T[,] org2)
-        {
-            buffer2 = new T[height,width];
-            this.width = width;
-            this.height = height;
-            this.print = print;
-            this.org2 = org2;
-            DrawBuffer(org2);
-        }
-
-        public T[] GetArray() { return buffer; }
-        public T[,] GetArray2() { return buffer2; }
-        
-
-        void DrawBuffer(T[] org) { org.CopyTo(buffer, 0);}
-        void DrawBuffer(T[,] org) 
-        {
-            for(int i=0; i < height; i++)
-            {
-                for(int k=0; k<width; k++)
-                {
-                    buffer2[i, k] = org[i, k];
-                }
-            }
-        }
-
-        public void Show()
-        {
-            DrawBuffer(org);
-            Console.SetCursorPosition(0, 0);
-            print();
-        }
-        public void Show2()
-        {
-            DrawBuffer(org2);
-            Console.SetCursorPosition(0, 0);
-            print();
-        }
 
 
 
-    }
-    
 
-    
-    
+
 }
 /*
 0 = ■

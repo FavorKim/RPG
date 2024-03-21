@@ -1,45 +1,40 @@
 ﻿using Entities;
 namespace Usable
 {
-    interface IUsable
-    {
-        int Consume { get; set; }
-        bool Use(Entity unit);
-        bool CanUse();
-        abstract void Effect(Entity dest);
-    }
+    
 
     abstract class Skill : IUsable
     {
-        protected Entity dest;
+        public Entity dest { get; set; }
         protected Player player;
-        public string name { get; protected set; }
+        public string Name { get; set; }
         public int Consume { set; get; }
         public int SkillLV { get; protected set; }
         protected int value;
         public bool IsLearned {  set; get; }
         public bool IsAttack { get; protected set; }
+        public bool IsSelected { get; set; }
 
         public Skill(Player player) 
         {
             this.player = player;
             IsLearned = false; 
         }
-        public bool Use(Entity user)
+        public void Use()
         {
             if (CanUse())
             {
                 player.CurMP -= Consume;
                 Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("{0} On {1}!", name, dest.Name);
+                Console.WriteLine("{0} On {1}!", Name, dest.Name);
                 Console.ResetColor();
-                Effect(dest);
-                return true;
+                Effect();
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("Can't Use Skill");
-                return false;
+                Console.ReadLine();
             }
         }
         public bool CanUse()
@@ -52,7 +47,7 @@ namespace Usable
             this.dest = dest;
         }
 
-        public abstract void Effect(Entity dest);
+        public abstract void Effect();
     }
 
     class Slash : Skill
@@ -62,11 +57,11 @@ namespace Usable
             value = 20;
             Consume = 10;
             SkillLV = 3;
-            name = "Slash";
+            Name = "Slash";
             IsAttack = true;
         }
 
-        public override void Effect(Entity dest) { dest.CurHP -= value; }
+        public override void Effect() { dest.CurHP -= value; }
     }
 
     class Rage : Skill
@@ -76,10 +71,10 @@ namespace Usable
             value = 10;
             Consume = 15;
             SkillLV = 5;
-            name = "Rage";
+            Name = "Rage";
             IsAttack = false;
         }
-        public override void Effect(Entity dest) { dest.Atk += value; dest.MaxHP += value; }
+        public override void Effect() { dest.Atk += value; dest.MaxHP += value; }
     }
 
     /* 스킬

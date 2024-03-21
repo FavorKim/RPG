@@ -1,27 +1,51 @@
 ﻿using Entities;
 using Equipments;
+using Managers;
+using Managers.Selectable;
 
 namespace Usable
 {
     abstract class Item : IUsable, ISellable
     {
-        public Item() { Consume = 1; }
+        public Item(Player player, ItemManager iM) 
+        {
+            Consume = 1; 
+            this.player = player; 
+            this.iM = iM;
+            onUse += iM.EmptyRemover;
+            onUse += iM.SetSelected;
+        }
+        ItemManager iM;
         public string Name { get; set; }
         public int Consume { get; set; }
         public int Price { get; set; }
         public bool isItem() { return true; }
+        public bool IsSelected { get; set; }
+        //public Entity dest { get; set; }
+        Player player;
 
-        public bool Use(Entity unit) 
+
+
+        public void Use() 
         {
             if (CanUse())
             {
                 Consume--;
                 Console.WriteLine("{0} Used!", Name);
-                Effect(unit);
-                return true;
+                Console.ReadLine();
+                Effect();
+                onUse();
             }
-            else { return false; }
+            else
+            {
+                Console.WriteLine("Can't Use");
+                Console.ReadLine();
+            }
         }
+
+        public delegate void OnUse();
+        public event OnUse onUse;
+
         public bool CanUse()
         {
             if (Consume > 0)
@@ -30,20 +54,30 @@ namespace Usable
                 return false;
         }
 
-        public abstract void Effect(Entity unit);
+        public abstract void Effect();
     }
 
     class Portion : Item
     {
+        Player player;
+        public Portion(Player player,ItemManager iM) : base(player,iM) { this.player = player; }
         protected int grade;
-        public override void Effect(Entity unit)
+        public override void Effect()
         {
-            unit.CurHP += 20 * grade;
-            if (unit.CurHP > unit.MaxHP)
-                unit.CurHP = unit.MaxHP;
+            player.CurHP += 20 * grade;
+            if (player.CurHP > player.MaxHP)
+                player.CurHP = player.MaxHP;
         }
     }
-    class LowPortion : Portion { public LowPortion() { grade = 1; Name = "LowPortion"; Price = 30; } }
-    class NormalPortion : Portion { public NormalPortion() { grade = 2; Name = "NormalPortion"; Price = 50; } }
-    class HighPortion : Portion { public HighPortion() { grade = 3; Name = "HighPortion"; Price = 70; } }
+    class LowPortion : Portion 
+    {
+        public LowPortion(Player player,ItemManager iM) :base(player,iM)
+        {
+            grade = 1;
+            Name = "LowPortion";
+            Price = 30;
+        }
+    }
+    class NormalPortion : Portion { public NormalPortion(Player player, ItemManager iM) : base(player, iM) { grade = 2; Name = "NormalPortion"; Price = 50; } }
+    class HighPortion : Portion { public HighPortion(Player player, ItemManager iM) : base(player, iM) { grade = 3; Name = "HighPortion"; Price = 70; } }
 }

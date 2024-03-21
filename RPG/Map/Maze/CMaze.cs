@@ -2,6 +2,10 @@
 using System.Buffers;
 using Mapper;
 using Entities;
+using Processors;
+using Managers;
+using Equipments;
+using System.Numerics;
 
 namespace CMaze
 {
@@ -12,6 +16,7 @@ namespace CMaze
         WALL = 2,
         PLAYER = 3,
         GOAL = 4,
+        ESC,
         Monster,
         Fail
     }
@@ -24,7 +29,7 @@ namespace CMaze
 
     enum Direction
     {
-        Up, Down, Left, Right, Fail
+        Up, Down, Left, Right,ESC, Fail
     }
 
     class Maze 
@@ -34,6 +39,8 @@ namespace CMaze
         Room[] maze = new Room[Size];
         Room[] buffer;
         int stageLV;
+        ItemManager iM;
+        Equip eM;
 
         public bool IsGoal { get; private set; }
 
@@ -46,7 +53,7 @@ namespace CMaze
             buffer = Rbuffer.GetArray();
         }
 
-        void ResetMaze()
+        public void ResetMaze()
         {
             for(int i=0; i<Size; i++)
             {
@@ -94,15 +101,32 @@ namespace CMaze
             maze[maze.Length - 2].SetWoW(Tile.GOAL);
             maze[1].SetWoW(Tile.PLAYER);
         }
-        void SetMonsters()
+        public void SetMonsters()
         {
+            int tempX = 0;
+            int tempY = 0;
             int mons = 0;
+            Room temp;
             mons = stageLV + 2;
             Stack<Room> monRoom = new Stack<Room>(mons);
             monRoom = GetEmpty(mons);
 
-            for(int i=0; i<monRoom.Count; i++)
-                monRoom.Pop().SetWoW(Tile.Monster);
+            for (int i = 0; i < monRoom.Count; i++)
+            {
+                temp = monRoom.Pop();
+                tempX = temp.X;
+                tempY = temp.Y;
+                for(int k = 0; k < maze.Length; k++)
+                {
+                    if (maze[k].X != tempX || maze[k].Y != tempY)
+                        continue;
+                    else
+                    {
+                        maze[k].SetWoW(Tile.Monster);
+                        break;
+                    }
+                }
+            }
         }
 
         public void DrawMaze()
@@ -133,7 +157,7 @@ namespace CMaze
 
         Stack<Room> GetEmpty(int count)
         {
-            List<Room> emptys = new List<Room>(maze.Length);
+            List<Room> emptys = maze.ToList();
             Stack<Room> ret = new Stack<Room>(count);
             Random rand = new Random();
             int sour = 0;
@@ -141,9 +165,12 @@ namespace CMaze
             foreach(Room r in maze)
             {
                 if (r.GetWoW() != Tile.ROAD)
-                    continue;
-                emptys.Add(r);
+                {
+                    emptys.Remove(r);
+                }
             }
+
+            
 
             for(int i=0; i < 100; i++)
             {
@@ -175,6 +202,9 @@ namespace CMaze
                     return Direction.Up;
                 case ConsoleKey.DownArrow:
                     return Direction.Down;
+
+                case ConsoleKey.Escape:
+                    return Direction.ESC;
                 default:
                     return Direction.Fail;
             }
@@ -200,6 +230,9 @@ namespace CMaze
 
             if (dir == Direction.Fail) 
                 return Tile.Fail;
+
+            if (dir == Direction.ESC)
+                return Tile.ESC;
 
             roomtomove = player.GetRoomToMove(dir);
 
@@ -252,7 +285,7 @@ namespace CMaze
 
 
 
-        
+
     }
 
     

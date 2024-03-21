@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Equipments;
-using Manager;
+using Managers;
+using Processors;
 using System.Diagnostics;
 using Usable;
 
@@ -8,28 +9,56 @@ namespace Shop
 {
     class Merchant
     {
-        // List<Item> itemList = new List<Item>();
-        // List<Equip> equipList = new List<Equip>();
+        List<Item> itemList = new List<Item>();
+        List<Equip> lowEquipList = new List<Equip>();
+        List<Equip> NormalEquipList = new List<Equip>();
+        List<Equip> HighEquipList = new List<Equip>();
+
         ItemManager iM;
         EquipManager eM;
+        Player player;
+        SelectProcessor<Item> selP;
 
-        public Merchant(ItemManager iM, EquipManager eM)
+
+        public Merchant(ItemManager iM, EquipManager eM, Player player)
         {
             this.iM = iM;
             this.eM = eM;
-            sellableList.Add(new LowPortion());
-            sellableList.Add(new NormalPortion());
-            sellableList.Add(new HighPortion());
-            sellableList.Add(new LowPlate());
-            sellableList.Add(new LowHelm());
+            this.player = player;
+            itemList.Add(new LowPortion(player, iM));
+            itemList.Add(new NormalPortion(player, iM));
+            itemList.Add(new HighPortion(player, iM));
+            lowEquipList.Add(new LowPlate(player));
+            lowEquipList.Add(new LowHelm(player));
+            lowEquipList.Add(new LowBoots(player));
+            lowEquipList.Add(new LowPants(player));
+            lowEquipList.Add(new OldBastard(player));
 
+            NormalEquipList.Add(new NormalBoots(player));
+            NormalEquipList.Add(new NormalPants(player));
+            NormalEquipList.Add(new NormalPlate(player));
+            NormalEquipList.Add(new NormalHelm(player));
+            NormalEquipList.Add(new Sabor(player));
+
+            HighEquipList.Add(new HighBoots(player));
+            HighEquipList.Add(new HighPants(player));
+            HighEquipList.Add(new HighPlate(player));
+            HighEquipList.Add(new HighHelm(player));
+            HighEquipList.Add(new TweiHander(player));
+
+
+
+            itemList.First().IsSelected = true;
+            lowEquipList.First().IsSelected = true;
+            NormalEquipList.First().IsSelected = true;
         }
 
-        List<ISellable> sellableList = new List<ISellable>();
+        public List<Item> GetItemList() { return itemList; }
+        public List<Equip> GetLowEquipList() { return lowEquipList; }
+        public List<Equip> GetNormalEquipList() { return NormalEquipList; }
+        public List<Equip> GetHighEquipList() { return HighEquipList; }
 
-        public List<ISellable> GetSellables() { return sellableList; }
-        public ISellable GetSellable(int index) { return sellableList[index]; }
-        
+       
 
         public void Purchase(Player player, ISellable sellable)
         {
@@ -43,30 +72,36 @@ namespace Shop
                     iM.AddInven((Item)sellable);
                 else
                 {
-                    eM.EinvenAdd((Equip)sellable);
-                    sellableList.Remove(sellable);
+                    if (lowEquipList.Contains(sellable))
+                    {
+                        eM.EinvenAdd((Equip)sellable);
+                        lowEquipList.Remove((Equip)sellable);
+                        if (lowEquipList.Count > 0)
+                            lowEquipList.First().IsSelected = true;
+                    }
+                    else if (NormalEquipList.Contains(sellable))
+                    {
+                        eM.EinvenAdd((Equip)sellable);
+                        NormalEquipList.Remove((Equip)sellable);
+                        if (NormalEquipList.Count > 0)
+                            NormalEquipList.First().IsSelected = true;
+                    }
                 }
             }
         }
+
         
-        public void ShowList()
-        {
-            for (int i = 0; i < sellableList.Count; i++)
-                Console.WriteLine($"{i + 1}. {sellableList[i].Name} : {sellableList[i].Price}gold");
-        }
-        
+
         public void Sell(Player player, ISellable sellable)
         {
             player.Gold += (sellable.Price / 5);
-            Console.WriteLine($"Sold {sellable.Name}. Gold : {player.Gold} ");
             if (sellable.isItem())
                 iM.inventory.Remove((Item)sellable);
             else
                 eM.RemoveEinven((Equip)sellable);
 
-            Console.ReadLine();
         }
-        
+
     }
 
 }

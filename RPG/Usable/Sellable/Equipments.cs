@@ -1,67 +1,66 @@
 ﻿using Entities;
-using Process;
+using Managers.Selectable;
+using Processors;
+using Selectable;
+using System.Diagnostics;
+using System.Numerics;
+using System.Xml.Linq;
+
 namespace Equipments
 {
-
-    public interface ISellable
-    {
-        int Price { get; set; }
-        string Name { get; set; }
-        bool isItem();
-    }
-
     public enum Parts
     {
         Weapon, Head, Plate, Pants, Feet, Max
     }
 
-    class Equip : ISellable
+    class Equip : ISellable, ISelectable
     {
         public Parts part { get; set; }
         public int Value { get; protected set; }
         public int Price { get; set; }
-        public int equipLV {  get; protected set; }
+        public int equipLV { get; protected set; }
         public bool isEquipped { get; set; }
         public string Name { get; set; }
         public bool isItem() { return false; }
+        public bool IsSelected { get; set; }
+        Player player;
 
-        public Equip()
+
+        public void Use()
         {
-            isEquipped = false;
+            player.eM.Equips(this);
         }
-        /*
-        public Equip(Parts part, int Value, int Price, int equipLV,string Name)
+
+        public Equip(Player player)
         {
-            this.part = part;
-            this.Value = Value;
-            this.Price = Price;
-            this.equipLV = equipLV;
-            this.Name = Name;
             isEquipped = false;
-        }*/
-    }
-    class LowPlate : Equip
-    {
-        public LowPlate()
+            this.player = player;
+        }
+
+        public void ShowStat()
         {
-            part = Parts.Plate;
-            Value = 2;
-            Price = 300;
-            equipLV = 3;
-            isEquipped = false;
-            Name = "LowPlate";
+            Cleaner.CleanBox();
+            Console.WriteLine($"\t{Name}\t");
+            Console.WriteLine("┌───────────────────────┐");
+            Console.WriteLine($"\tParts : {part}\t");
+            if (part == Parts.Weapon)
+                Console.WriteLine($"│\tATK : {Value}");
+            else
+                Console.WriteLine($"\tDEF : {Value}");
+
+            Console.WriteLine($"\tEquip Level :{equipLV}");
+            Console.WriteLine("└───────────────────────┘");
         }
     }
-    class LowHelm : Equip
+    
+    class Empty : Equip
     {
-        public LowHelm()
+        public Empty(Player player, Parts parts) : base(player)
         {
-            part = Parts.Head;
-            Value = 1;
-            Price = 150;
-            equipLV = 2;
-            isEquipped = false;
-            Name = "LowHelm";
+            this.part = parts;
+            Value = 0;
+            Name = "Empty";
+            isEquipped = true;
         }
     }
 }

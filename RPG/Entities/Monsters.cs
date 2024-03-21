@@ -20,7 +20,7 @@ namespace Entities
     {
         public Goblin()
         {
-            goldPK = 5; expPK = 200;
+            goldPK = 20; expPK = 10;
             MaxHP = 30;
             CurHP = MaxHP;
             Atk = 5;
@@ -28,7 +28,32 @@ namespace Entities
             Name = "Goblin";
         }
     }
-
+    class Wolf : Monster
+    {
+        public Wolf()
+        {
+            goldPK = 40;
+            expPK = 20;
+            MaxHP = 60;
+            Init();
+            Atk = 15;
+            Def = 2;
+            Name = "Wolf";
+        }
+    }
+    class Ogre : Monster
+    {
+        public Ogre()
+        {
+            goldPK = 100;
+            expPK = 40;
+            MaxHP = 150;
+            Init();
+            Atk = 25;
+            Def = 5;
+            Name = "Ogre";
+        }
+    }
     class Dummy : Monster
     {
         public Dummy()
