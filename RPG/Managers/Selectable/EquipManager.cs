@@ -57,6 +57,15 @@ namespace Managers
             Equipped[(int)equip.part] = equip;
             EStatUp(equip);
             RemoveEinven(equip);
+
+            Cleaner.CleanBox();
+            Console.WriteLine($"{equip.Name} Equipped!");
+            Console.ReadLine();
+            if (equip.part == Parts.Weapon)
+                Console.WriteLine($"ATK Increase at{equip.Value}!");
+            else
+                Console.WriteLine($"DEF Increase at{equip.Value}!");
+            Console.ReadLine();
         }
 
         public void UnEquip(Equip equip)
@@ -71,6 +80,15 @@ namespace Managers
             equip.isEquipped = true;
             Equipped[(int)equip.part] = equip;
             SetSelected();
+
+            Cleaner.CleanBox();
+            Console.WriteLine($"{equip.Name} UnEquipped.");
+            Console.ReadLine();
+            if (equip.part == Parts.Weapon)
+                Console.WriteLine($"ATK Decreased about {equip.Value}");
+            else
+                Console.WriteLine($"DEF Decreased about {equip.Value}");
+            Console.ReadLine();
         }
 
         public void EStatUp(Equip equip)

@@ -36,10 +36,11 @@ namespace RPG.Select.Selectors
             Init();
         }
 
-        public static void PrintGold(Player player)
+        public static void PrintStat(Player player)
         {
             Console.SetCursorPosition(0,0);
             Console.WriteLine($"Your Remaining Gold : {player.Gold}");
+            Console.WriteLine($"Your Level : {player.LV}");
         }
 
         void Init()

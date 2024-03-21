@@ -9,7 +9,7 @@ using System.Numerics;
 
 namespace CMaze
 {
-    
+
     enum Tile
     {
         ROAD = 1,
@@ -29,10 +29,10 @@ namespace CMaze
 
     enum Direction
     {
-        Up, Down, Left, Right,ESC, Fail
+        Up, Down, Left, Right, ESC, Fail
     }
 
-    class Maze 
+    class Maze
     {
         public Buffer<Room> Rbuffer;
         const int Size = (int)MapSize.Height * (int)MapSize.Width;
@@ -55,7 +55,7 @@ namespace CMaze
 
         public void ResetMaze()
         {
-            for(int i=0; i<Size; i++)
+            for (int i = 0; i < Size; i++)
             {
                 maze[i] = null;
             }
@@ -71,7 +71,7 @@ namespace CMaze
         }
 
         public Room[] GetMaze() { return maze; }
-        
+
         void MakeMaze()
         {
             maze[(int)MapSize.Width + 1].GoNext(null);
@@ -116,7 +116,7 @@ namespace CMaze
                 temp = monRoom.Pop();
                 tempX = temp.X;
                 tempY = temp.Y;
-                for(int k = 0; k < maze.Length; k++)
+                for (int k = 0; k < maze.Length; k++)
                 {
                     if (maze[k].X != tempX || maze[k].Y != tempY)
                         continue;
@@ -161,8 +161,9 @@ namespace CMaze
             Stack<Room> ret = new Stack<Room>(count);
             Random rand = new Random();
             int sour = 0;
+            int dest = 0;
             Room temp;
-            foreach(Room r in maze)
+            foreach (Room r in maze)
             {
                 if (r.GetWoW() != Tile.ROAD)
                 {
@@ -170,17 +171,22 @@ namespace CMaze
                 }
             }
 
-            
 
-            for(int i=0; i < 100; i++)
+
+            for (int i = 0; i < 100; i++)
             {
-                sour = rand.Next(0, emptys.Count-1);
+                sour = rand.Next(0, emptys.Count - 1);
+                do
+                {
+                    dest = rand.Next(0, emptys.Count - 1);
+                } while (dest == sour);
+
                 temp = emptys[sour];
-                emptys[sour] = emptys[sour + 1];
-                emptys[sour+1] = temp;
+                emptys[sour] = emptys[dest];
+                emptys[dest] = temp;
             }
 
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
                 ret.Push(emptys[i]);
 
             return ret;
@@ -228,7 +234,7 @@ namespace CMaze
             Room player = FindPlayer();
             Direction dir = GetDirection();
 
-            if (dir == Direction.Fail) 
+            if (dir == Direction.Fail)
                 return Tile.Fail;
 
             if (dir == Direction.ESC)
@@ -236,15 +242,15 @@ namespace CMaze
 
             roomtomove = player.GetRoomToMove(dir);
 
-            if (roomtomove == null) 
+            if (roomtomove == null)
                 return Tile.Fail;
 
-            if(roomtomove.GetWoW() == Tile.GOAL)
+            if (roomtomove.GetWoW() == Tile.GOAL)
                 return Tile.GOAL;
 
             if (roomtomove.CanMove())
             {
-                Room Ptemp = new Room(0,0);
+                Room Ptemp = new Room(0, 0);
                 Room Rtemp = new Room(0, 0);
                 Ptemp = player;
                 Rtemp = roomtomove;
@@ -267,7 +273,7 @@ namespace CMaze
             }
             return Tile.Fail;
         }
-        
+
 
         public void SetLevel(Player player)
         {
@@ -288,5 +294,5 @@ namespace CMaze
 
     }
 
-    
+
 }

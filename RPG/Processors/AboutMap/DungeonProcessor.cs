@@ -54,7 +54,10 @@ namespace Processors
                 }
             }
             if (!player.IsLost)
+            {
                 m.OnGoal();
+                player.Goal();
+            }
             else
             {
                 player.IsLost = false;

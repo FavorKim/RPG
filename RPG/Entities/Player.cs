@@ -116,6 +116,14 @@ namespace Entities
             Console.Write("Back to the Town");
         }
 
+        public void Goal()
+        {
+            Gold += 100 + LV * 50;
+            curEXP += 10 + LV * 30;
+            Console.Write($"You Got{100+LV*50} Gold!");
+            Console.ReadLine();
+            Console.Write($"You Got {10 + LV * 30} EXP!");
+        }
 
         public void Use(IUsable item)
         {

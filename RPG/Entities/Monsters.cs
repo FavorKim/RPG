@@ -20,7 +20,7 @@ namespace Entities
     {
         public Goblin()
         {
-            goldPK = 20; expPK = 10;
+            goldPK = 20; expPK =10;
             MaxHP = 30;
             CurHP = MaxHP;
             Atk = 5;

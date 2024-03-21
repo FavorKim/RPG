@@ -40,6 +40,7 @@ namespace Processors
             Console.WriteLine($"│\t{player.Name}'s Def : {player.Def}\t│");
             Console.WriteLine($"│\t{player.Name}'s EXP : {player.curEXP}/{player.maxEXP}\t│");
             Console.WriteLine($"│\t{player.Name}'s LV : {player.LV}\t\t│");
+            Console.WriteLine($"│{player.Name}'s Gold : {player.Gold}Gold\t│");
             Console.WriteLine("└───────────────────────────────┘");
             Console.ResetColor();
             Console.ReadLine();

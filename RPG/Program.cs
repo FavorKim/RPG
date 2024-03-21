@@ -11,6 +11,7 @@ namespace Main
     {
         static void Main(string[] args)
         {
+            Console.CursorVisible = false;
             MainProcessor main = new MainProcessor();
             main.MainProcess();
         }

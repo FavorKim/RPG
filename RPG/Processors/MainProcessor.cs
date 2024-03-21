@@ -28,12 +28,12 @@ namespace Processors
             skillM = player.GetSkillManager();
             shopP = new ShopProcessor(player, itemM, equipM, this);
             indicateP = new IndicateProcess(player);
-            iStat = new MenuSelector(skillM, itemM, indicateP, equipM);
+            iStat = new MenuSelector(skillM, itemM, indicateP, equipM,player);
             mapP = new MapProcessor(itemM, equipM, indicateP, iStat);
             maze = new Maze();
             innP = new Inn(player);
             shopSel = new ShopSelector(player, shopP, itemM, equipM);
-            inSel = new InnSelector(innP, player);
+            inSel = new InnSelector(innP, player,indicateP);
             bsel = new BattleSelector(player, skillM, itemM);
             battleP = new BattleProcessor(player, monM, itemM, this, skillM,bsel);
             dunP = new DungeonProcessor(maze, battleP, player,iStat);
@@ -42,7 +42,6 @@ namespace Processors
 
         public void MainProcess()
         {
-            player.Gold += 9999;
             Entering en;
             en = mapP.Action();
             Enter(en);

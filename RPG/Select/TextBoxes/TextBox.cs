@@ -74,10 +74,12 @@ namespace Selectable
     class StatTB : TextBox
     {
         IndicateProcess iP;
-        public StatTB(IndicateProcess p)
+        Player player;
+        public StatTB(IndicateProcess p, Player player)
         {
             iP = p;
             Name = "Player Status";
+            this.player = player;
         }
         public override void Use()
         {
@@ -185,7 +187,7 @@ namespace Selectable
         }
         public override void Use()
         {
-            ShopSelector.PrintGold(player);
+            ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
 
             ISellable temp = (ISellable)sP.itemSelP.SelectReturn();
@@ -234,7 +236,7 @@ namespace Selectable
         }
         public override void Use()
         {
-            ShopSelector.PrintGold(player);
+            ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
 
             Equip temp = (Equip)sP.lowEquipSelP.SelectReturn();
@@ -267,7 +269,7 @@ namespace Selectable
         }
         public override void Use()
         {
-            ShopSelector.PrintGold(player);
+            ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
 
             Equip temp = (Equip)sP.normalEquipSelP.SelectReturn();
@@ -300,9 +302,9 @@ namespace Selectable
         }
         public override void Use()
         {
-            ShopSelector.PrintGold(player);
+            
             Cleaner.CleanBox();
-
+            ShopSelector.PrintStat(player);
             Equip temp = (Equip)sP.highEquipSelP.SelectReturn();
 
             if (temp == null) return;
@@ -336,7 +338,7 @@ namespace Selectable
         }
         public override void Use()
         {
-            ShopSelector.PrintGold(player);
+            ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
             temp = (Item)iM.selectP.SelectReturn();
             if (temp != null)
@@ -371,7 +373,7 @@ namespace Selectable
         }
         public override void Use()
         {
-            ShopSelector.PrintGold(player);
+            ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
             temp = (Equip)eM.EinveSelP.SelectReturn();
             if (temp != null)

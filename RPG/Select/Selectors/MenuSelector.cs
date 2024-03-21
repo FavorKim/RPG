@@ -1,4 +1,5 @@
-﻿using Managers;
+﻿using Entities;
+using Managers;
 using Processors;
 using Selectable;
 using System;
@@ -22,15 +23,16 @@ namespace Select
         SkillsTB skil;
         EquipTB equip;
         EquippedTB equipped;
-        public MenuSelector(SkillManager sM, ItemManager iM, IndicateProcess iP, EquipManager eM)
+        Player player;
+        public MenuSelector(SkillManager sM, ItemManager iM, IndicateProcess iP, EquipManager eM,Player player)
         {
             this.sM = sM;
             this.iM = iM;
             this.iP = iP;
             this.eM = eM;
-
+            this.player = player;
             inven = new invenTB(iM);
-            stat = new StatTB(iP);
+            stat = new StatTB(iP,player);
             skil = new SkillsTB(sM);
             equip = new EquipTB(eM);
             equipped = new EquippedTB(eM);
