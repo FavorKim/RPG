@@ -188,8 +188,7 @@ namespace Selectable
             if (temp == null) return;
 
             temp.Description();
-            Console.WriteLine($"{temp.Name}'s Price is {temp.Price}.");
-            Console.WriteLine("Do You Really Want to Buy?\n");
+            Console.WriteLine("\nDo You Really Want to Buy?\n");
 
             if (Yes())
             {
@@ -238,8 +237,7 @@ namespace Selectable
 
             if (temp == null) return;
             temp.ShowStat();
-            Console.WriteLine($"{temp.Name}'s Price is {temp.Price}.");
-            Console.WriteLine("Do You Really Want to Buy?");
+            Console.WriteLine("\nDo You Really Want to Buy?\n");
 
             if (Yes())
             {
@@ -271,8 +269,7 @@ namespace Selectable
 
             if (temp == null) return;
             temp.ShowStat();
-            Console.WriteLine($"{temp.Name}'s Price is {temp.Price}.");
-            Console.WriteLine("Do You Really Want to Buy?");
+            Console.WriteLine("\nDo You Really Want to Buy?\n");
 
             if (Yes())
             {
@@ -304,8 +301,7 @@ namespace Selectable
 
             if (temp == null) return;
             temp.ShowStat();
-            Console.WriteLine($"{temp.Name}'s Price is {temp.Price}.");
-            Console.WriteLine("Do You Really Want to Buy?");
+            Console.WriteLine("\nDo You Really Want to Buy?\n");
 
             if (Yes())
             {
@@ -338,7 +334,9 @@ namespace Selectable
             temp = (Item)iM.selectP.SelectReturn();
             if (temp != null)
             {
-                Console.WriteLine($"{temp.Name}'s Resell Price is {temp.Price / 5}Gold.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"!! {temp.Name}'s Resell Price is {temp.Price / 5} Gold !!");
+                Console.ResetColor();
                 Console.WriteLine("Do You Really Want to Buy?\n");
                 if (Yes())
                 {
@@ -376,8 +374,9 @@ namespace Selectable
             temp = (Equip)eM.EinveSelP.SelectReturn();
             if (temp != null)
             {
-
-                Console.WriteLine($"{temp.Name}'s Sell Price is {temp.Price / 5}Gold.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"!! {temp.Name}'s Sell Price is {temp.Price / 5} Gold !!");
+                Console.ResetColor();
                 Console.WriteLine("Do You Really Want to Sell?");
                 if (Yes())
                 {
@@ -495,19 +494,4 @@ namespace Selectable
     
 
 }
-/*
-필요한 TB :
-1차 - Buy Sell Exit
-buy -> (BuyItem, BuyEquip, prev) 
-sell-> (SellItem, SellEquip, prev)
-Exit-> break;
 
-2차 - (BuyItem, BuyEquip,)(SellItem, SellEquip,) prev
-BuyItem -> Shop'sItem
-BuyEquip -> Shop'sEquip
-SellItem -> MyInven
-SellEquip -> myEInven
-prev -> 1차
-
-3차 - Shop'sItem, Shop'sEquip, MyInven, MyEquip, prev
-*/

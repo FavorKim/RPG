@@ -285,7 +285,7 @@ namespace CMaze
                     roomtomove.SetWoW(Tile.ROAD);
                     moveCount++;
                     //if (moveCount % 3 == 0)
-                        OnMove();
+                    OnMove();
                     return Tile.ROAD;
                 }
                 else if (Rtemp.GetWoW() == Tile.Monster)
@@ -300,30 +300,33 @@ namespace CMaze
         public void Move(Room mon)
         {
             Random rand = new Random();
-
             Room roomtomove;
-            Direction dir = (Direction)rand.Next((int)Direction.Up, (int)Direction.Right+1);
 
-            roomtomove = mon.GetRoomToMove(dir);
-
-            if (roomtomove.CanMove())
+            while (true)
             {
-                Room Ptemp = new Room(0, 0);
-                Room Rtemp = new Room(0, 0);
-                Ptemp = mon;
-                Rtemp = roomtomove;
+                Direction dir = (Direction)rand.Next(0, 4);
+                roomtomove = mon.GetRoomToMove(dir);
+                if (!roomtomove.CanMove())
+                    continue;
 
-                mon = roomtomove;
-                roomtomove = Ptemp;
-
-                if (Rtemp.GetWoW() == Tile.ROAD)
-                {
-                    mon.SetWoW(Tile.Monster);
-                    roomtomove.SetWoW(Tile.ROAD);
-                }
-                else if (Rtemp.GetWoW() == Tile.Monster || Rtemp.GetWoW() == Tile.PLAYER)
-                    return;
+                else
+                    break;
             }
+            Room Ptemp = new Room(0, 0);
+            Room Rtemp = new Room(0, 0);
+            Ptemp = mon;
+            Rtemp = roomtomove;
+
+            mon = roomtomove;
+            roomtomove = Ptemp;
+
+            if (Rtemp.GetWoW() == Tile.ROAD)
+            {
+                mon.SetWoW(Tile.Monster);
+                roomtomove.SetWoW(Tile.ROAD);
+            }
+            else if (Rtemp.GetWoW() == Tile.Monster || Rtemp.GetWoW() == Tile.PLAYER)
+                return;
         }
 
 
@@ -331,7 +334,7 @@ namespace CMaze
 
         void MoveMonsters()
         {
-            foreach(Room r in maze)
+            foreach (Room r in maze)
             {
                 if (r.GetWoW() == Tile.Monster)
                     Move(r);

@@ -165,17 +165,17 @@ namespace Processors
             {
                 if (!list[i].IsSelected)
                 {
-                    Console.Write($"{i + 1}. {list[i].Name} "); 
+                    Console.Write($"{i + 1}. {list[i].Name} "); list[i].ShowNum();
+
                 }
                 else if (list[i].IsSelected)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(" ▶ ");
-                    Console.Write($"{i + 1}. {list[i].Name} ");
-                    
+                    Console.Write($"{i + 1}. {list[i].Name} "); list[i].ShowNum();
                     Console.ResetColor();
                 }
-                list[i].ShowNum();
+                Console.WriteLine();
             }
             Console.WriteLine("Prev (ESC)");
         }

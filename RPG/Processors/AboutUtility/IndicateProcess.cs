@@ -20,7 +20,7 @@ namespace Processors
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("┌───────────────────────────────────────────────────────┐");
-            if ((player.CurHP / 100) > 0 && (player.MaxHP / 100) > 0)
+            if (player.CurHP >= 100 && player.MaxHP >= 100)
                 Console.WriteLine($"│{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t\t\t│");
             else
                 Console.WriteLine($"│{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t\t\t\t│");
@@ -40,7 +40,7 @@ namespace Processors
             Cleaner.CleanBox();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n┌───────────────────────────────────────┐");
-            if ((player.CurHP / 100) > 0 && (player.MaxHP / 100) > 0)
+            if (player.CurHP >= 100 && player.MaxHP >= 100)
                 Console.WriteLine($"│\t{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t│");
             else
                 Console.WriteLine($"│\t{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t│");

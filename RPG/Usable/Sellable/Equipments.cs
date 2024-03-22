@@ -23,7 +23,7 @@ namespace Equipments
         public string Name { get; set; }
         public bool isItem() { return false; }
         public bool IsSelected { get; set; }
-        public void ShowNum() { Console.WriteLine(""); }
+        public void ShowNum() { Console.Write($" : {Price} Gold"); }
         public virtual ISellable GetDeep() 
         {
             Equip deep = new Equip(player);
@@ -53,6 +53,7 @@ namespace Equipments
         public void ShowStat()
         {
             Cleaner.CleanBox();
+            Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"\t{Name}\t");
             Console.WriteLine("┌───────────────────────┐");
             Console.WriteLine($"\tParts : {part}\t");
@@ -63,6 +64,7 @@ namespace Equipments
 
             Console.WriteLine($"\tEquip Level :{equipLV}");
             Console.WriteLine("└───────────────────────┘");
+            Console.ResetColor();
         }
     }
     
