@@ -47,6 +47,10 @@ namespace Processors
                 Console.ReadLine();
                 player.curEXP += mon.ExpPK;
                 player.Gold += mon.GoldPK;
+                Console.WriteLine($"You Got {mon.GoldPK}Gold from {mon.Name}!");
+                Console.ReadLine();
+                Console.WriteLine($"You Got {mon.ExpPK}EXP from {mon.Name}!");
+                Console.ReadLine();
                 OnBattleOver();
             }
             else
@@ -54,6 +58,7 @@ namespace Processors
                 Console.WriteLine("Lose...");
                 player.Lose();
                 Console.ReadLine();
+                OnBattleOver();
             }
         }
 

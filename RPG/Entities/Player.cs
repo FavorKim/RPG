@@ -123,6 +123,7 @@ namespace Entities
             Console.Write($"You Got{100+LV*50} Gold!");
             Console.ReadLine();
             Console.Write($"You Got {10 + LV * 30} EXP!");
+            Console.ReadLine();
         }
 
         public void Use(IUsable item)

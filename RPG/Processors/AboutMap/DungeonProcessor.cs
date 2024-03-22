@@ -2,6 +2,7 @@
 using Entities;
 using Select;
 using Selectable;
+using Processors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,10 @@ namespace Processors
         public DungeonProcessor(Maze m, BattleProcessor battleP, Player player, MenuSelector ms)
         {
             this.m = m;
+            this.ms = ms;
             this.battleP = battleP;
             this.player = player;
-            this.ms = ms;
+            
         }
 
         public Tile Action()
@@ -57,6 +59,7 @@ namespace Processors
             {
                 m.OnGoal();
                 player.Goal();
+                player.CheckLevelUp();
             }
             else
             {

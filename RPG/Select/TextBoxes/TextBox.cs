@@ -190,10 +190,10 @@ namespace Selectable
             ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
 
-            ISellable temp = (ISellable)sP.itemSelP.SelectReturn();
+            Portion temp = (Portion)sP.itemSelP.SelectReturn();
 
             if (temp == null) return;
-
+            Console.WriteLine($"{temp.Name} : Recover {temp.GetHealValue()}\n");
             Console.WriteLine($"{temp.Name}'s Price is {temp.Price}.");
             Console.WriteLine("Do You Really Want to Buy?\n");
 

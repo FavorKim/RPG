@@ -62,6 +62,9 @@ namespace Usable
         Player player;
         public Portion(Player player,ItemManager iM) : base(player,iM) { this.player = player; }
         protected int grade;
+
+        public int GetHealValue() {  return grade*20; }
+
         public override void Effect()
         {
             player.CurHP += 20 * grade;
