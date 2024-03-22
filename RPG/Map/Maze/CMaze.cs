@@ -39,8 +39,11 @@ namespace CMaze
         Room[] maze = new Room[Size];
         Room[] buffer;
         int stageLV;
+        int moveCount;
         ItemManager iM;
         Equip eM;
+
+        public event Action OnMove;
 
         public bool IsGoal { get; private set; }
 
@@ -49,6 +52,7 @@ namespace CMaze
             maze = new Room[Size];
 
             SetMaze();
+            OnMove += MoveMonsters;
             Rbuffer = new Buffer<Room>(Size, DrawMaze, maze);
             buffer = Rbuffer.GetArray();
         }
@@ -68,6 +72,7 @@ namespace CMaze
             MakeMaze();
             SetGoalnStart();
             SetMonsters();
+            moveCount = 0;
         }
 
         public Room[] GetMaze() { return maze; }
@@ -141,13 +146,29 @@ namespace CMaze
                     if (buffer[count].GetWoW() == Tile.ROAD)
                         Console.Write(" ");
                     else if (buffer[count].GetWoW() == Tile.WALL)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         Console.Write("▒");
+                        Console.ResetColor();
+                    }
                     else if (buffer[count].GetWoW() == Tile.PLAYER)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("◈");
+                        Console.ResetColor();
+                    }
                     else if (buffer[count].GetWoW() == Tile.GOAL)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("★");
+                        Console.ResetColor();
+                    }
                     else if (buffer[count].GetWoW() == Tile.Monster)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("Ψ");
+                        Console.ResetColor();
+                    }
                     count++;
                 }
                 Console.WriteLine();
@@ -262,6 +283,9 @@ namespace CMaze
                 {
                     player.SetWoW(Tile.PLAYER);
                     roomtomove.SetWoW(Tile.ROAD);
+                    moveCount++;
+                    //if (moveCount % 3 == 0)
+                        OnMove();
                     return Tile.ROAD;
                 }
                 else if (Rtemp.GetWoW() == Tile.Monster)
@@ -272,6 +296,46 @@ namespace CMaze
                 }
             }
             return Tile.Fail;
+        }
+        public void Move(Room mon)
+        {
+            Random rand = new Random();
+
+            Room roomtomove;
+            Direction dir = (Direction)rand.Next((int)Direction.Up, (int)Direction.Right+1);
+
+            roomtomove = mon.GetRoomToMove(dir);
+
+            if (roomtomove.CanMove())
+            {
+                Room Ptemp = new Room(0, 0);
+                Room Rtemp = new Room(0, 0);
+                Ptemp = mon;
+                Rtemp = roomtomove;
+
+                mon = roomtomove;
+                roomtomove = Ptemp;
+
+                if (Rtemp.GetWoW() == Tile.ROAD)
+                {
+                    mon.SetWoW(Tile.Monster);
+                    roomtomove.SetWoW(Tile.ROAD);
+                }
+                else if (Rtemp.GetWoW() == Tile.Monster || Rtemp.GetWoW() == Tile.PLAYER)
+                    return;
+            }
+        }
+
+
+
+
+        void MoveMonsters()
+        {
+            foreach(Room r in maze)
+            {
+                if (r.GetWoW() == Tile.Monster)
+                    Move(r);
+            }
         }
 
 

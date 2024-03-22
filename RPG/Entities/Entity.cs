@@ -23,6 +23,10 @@ namespace Entities
             Cleaner.CleanBox();
             Console.WriteLine($"\n{Name}'s Attack On {unit.Name}!");
             Console.ReadLine();
+            Console.WriteLine($"{unit.Name} was Damaged {Atk}");
+            Console.ReadLine();
+            
+
         }
 
         public void Defense()

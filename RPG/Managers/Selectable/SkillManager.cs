@@ -61,5 +61,19 @@ namespace Managers
         }
         public List<Skill> GetSkillsUsable() { return SkillsUsable; }
 
+        public void ResetRage()
+        {
+            if(player.IsRaged)
+            {
+                player.Atk -= 10;
+                player.MaxHP -= 30;
+                player.CurHP -= 30;
+                Console.WriteLine("Rage Over!");
+                Console.ReadLine();
+                Console.WriteLine("Player's Status Reset");
+                Console.ReadLine();
+            }
+        }
+
     }
 }

@@ -21,6 +21,7 @@ namespace Entities
         public int maxEXP { get; set; }
         public int Gold { get; set; }
         public bool IsLost { get;  set; }
+        public bool IsRaged {  get; set; }
 
         List<Item> inventory;
         List<Skill> skills;
@@ -132,6 +133,8 @@ namespace Entities
             if (item == null) return;
             item.Use();
         }
+
+        
 
 
 

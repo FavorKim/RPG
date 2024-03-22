@@ -208,18 +208,9 @@ namespace Processors
                     Console.ResetColor();
                 }
                 else if (i == list.Count - 1)
-                {
                     Console.Write($"{i + 1}. {list[i].Name}");
-                }
             }
-
             Console.WriteLine("Prev (ESC)");
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine();
         }
 
         ISelectable GetSelected()

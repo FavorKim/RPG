@@ -487,6 +487,7 @@ namespace Selectable
             Console.ForegroundColor = ConsoleColor.Cyan;
             player.Attack(mon);
             Console.ResetColor();
+            IndicateProcess.BattleIndicator(player, mon);
         }
 
     }

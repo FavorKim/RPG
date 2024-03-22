@@ -15,12 +15,13 @@ namespace Processors
         {
             this.player = player;
         }
-        public static void Indicator(Player player, Monster mon)
+        public static void BattleIndicator(Player player, Monster mon)
         {
+            Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("┌───────────────────────────────────────────────────────┐");
-            if (player.CurHP >= 100 && player.MaxHP >= 100)
-                Console.WriteLine($"│{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t\t│");
+            if ((player.CurHP / 100) > 0 && (player.MaxHP / 100) > 0)
+                Console.WriteLine($"│{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t\t\t│");
             else
                 Console.WriteLine($"│{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t\t\t\t│");
             Console.WriteLine($"│{player.Name}'s MP\t: {player.CurMP}/{player.MaxMP}\t\t{mon.Name}'s HP\t: {mon.CurHP}\t│");
@@ -39,8 +40,10 @@ namespace Processors
             Cleaner.CleanBox();
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n┌───────────────────────────────────────┐");
-            Console.Write($"│\t{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t│");
-            if (player.CurHP < 100) Console.Write(" \n"); else Console.Write('\n');
+            if ((player.CurHP / 100) > 0 && (player.MaxHP / 100) > 0)
+                Console.WriteLine($"│\t{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t│");
+            else
+                Console.WriteLine($"│\t{player.Name}'s HP\t: {player.CurHP}/{player.MaxHP}\t\t│");
             Console.WriteLine($"│\t{player.Name}'s MP\t: {player.CurMP}/{player.MaxMP}\t\t│");
             Console.WriteLine($"│\t{player.Name}'s Atk\t: {player.Atk}\t\t│");
             Console.WriteLine($"│\t{player.Name}'s Def\t: {player.Def}\t\t│");

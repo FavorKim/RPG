@@ -62,9 +62,9 @@ namespace Managers
             Console.WriteLine($"{equip.Name} Equipped!");
             Console.ReadLine();
             if (equip.part == Parts.Weapon)
-                Console.WriteLine($"ATK Increase at{equip.Value}!");
+                Console.WriteLine($"ATK Increase at {equip.Value}!");
             else
-                Console.WriteLine($"DEF Increase at{equip.Value}!");
+                Console.WriteLine($"DEF Increase at {equip.Value}!");
             Console.ReadLine();
         }
 
@@ -135,6 +135,8 @@ namespace Managers
                 Console.Write($"│{(Parts)i}\t: ");
                 if (Equipped[i].Name == "Empty" )
                     Console.WriteLine("Empty\t\t│");
+                else if (Equipped[i].Name == "Sabor")
+                    Console.WriteLine("Sabor\t\t│");
                 else
                     Console.WriteLine($"{Equipped[i].Name}\t│");
                 //Console.WriteLine
