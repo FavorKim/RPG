@@ -17,6 +17,9 @@ namespace Processors
         }
         public static void BattleIndicator(Player player, Monster mon)
         {
+            
+            Console.SetCursorPosition(0, 0);
+            Cleaner.Clean();
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("┌───────────────────────────────────────────────────────┐");

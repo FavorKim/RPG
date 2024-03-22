@@ -30,13 +30,9 @@ namespace Usable
                 Console.WriteLine("{0} On {1}!", Name, dest.Name);
                 Console.ResetColor();
                 Effect();
-                Console.ReadLine();
             }
             else
-            {
-                Console.WriteLine("Can't Use Skill");
-                Console.ReadLine();
-            }
+                return;
         }
         public bool CanUse()
         {
@@ -88,6 +84,7 @@ namespace Usable
         }
         public override void Effect() 
         {
+            
             dest.Atk += value;
             dest.MaxHP += (value*3);
             dest.CurHP += (value*3);

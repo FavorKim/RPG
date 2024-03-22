@@ -63,6 +63,7 @@ namespace Equipments
                 Console.WriteLine($"\tDEF : {Value}");
 
             Console.WriteLine($"\tEquip Level :{equipLV}");
+            Console.WriteLine($"\tPrice :{Price}Gold");
             Console.WriteLine("└───────────────────────┘");
             Console.ResetColor();
         }
