@@ -14,6 +14,10 @@ namespace Entities
             if (CurHP != MaxHP)
                 CurHP = MaxHP;
         }
+        public void SetDebugMon()
+        {
+            expPK += 500;
+        }
     }
 
     class Goblin : Monster

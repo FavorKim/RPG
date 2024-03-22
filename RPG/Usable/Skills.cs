@@ -14,6 +14,7 @@ namespace Usable
         public bool IsLearned {  set; get; }
         public bool IsAttack { get; protected set; }
         public bool IsSelected { get; set; }
+        public void ShowNum() { Console.WriteLine($" : {Consume}mp"); }
 
         public Skill(Player player) 
         {
@@ -54,7 +55,7 @@ namespace Usable
     {
         public Slash(Player player) :base(player)
         {
-            value = 20;
+            value = player.Atk + (player.LV * 4);
             Consume = 10;
             SkillLV = 3;
             Name = "Slash";

@@ -4,6 +4,7 @@ namespace Equipments
 {
     class LowPlate : Equip
     {
+        
         public LowPlate(Player player) : base(player)
         {
             part = Parts.Plate;

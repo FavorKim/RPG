@@ -30,10 +30,10 @@ namespace Processors
                 buffer = new Buffer<T>(list, ShowCol);
             else
                 buffer = new Buffer<T>(list, ShowRow);
-            
+
         }
 
-        
+
 
 
         public ISelectable SelectReturn()
@@ -113,7 +113,7 @@ namespace Processors
                 Cleaner.CleanBox();
                 Console.WriteLine("\n\n Empty");
                 Console.ReadLine();
-                return ;
+                return;
             }
             SetList();
 
@@ -121,7 +121,7 @@ namespace Processors
             Cleaner.CleanBox();
             buffer.ShowBox();
 
-           
+
             Choose c = Choose.PREV;
 
             while (c != Choose.EXIT)
@@ -164,17 +164,20 @@ namespace Processors
             for (int i = 0; i < list.Count; i++)
             {
                 if (!list[i].IsSelected)
-                    Console.WriteLine($"{i + 1}. {list[i].Name}　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
+                {
+                    Console.Write($"{i + 1}. {list[i].Name} "); 
+                }
                 else if (list[i].IsSelected)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(" ▶ ");
-                    Console.WriteLine($"{i + 1}. {list[i].Name}　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
+                    Console.Write($"{i + 1}. {list[i].Name} ");
+                    
                     Console.ResetColor();
                 }
+                list[i].ShowNum();
             }
             Console.WriteLine("Prev (ESC)");
-           
         }
         void ShowRow()
         {
@@ -251,7 +254,7 @@ namespace Processors
 
         void Choice(Choose c)
         {
-            if(list.Count == 0)
+            if (list.Count == 0)
             {
                 Console.WriteLine("getChoiceEmpty");
                 c = Choose.EXIT;
@@ -282,7 +285,7 @@ namespace Processors
                 }
             }
         }
-        
+
         Choose GetChoose()
         {
             ConsoleKeyInfo key = Console.ReadKey();

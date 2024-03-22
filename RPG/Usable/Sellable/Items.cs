@@ -7,26 +7,30 @@ namespace Usable
 {
     abstract class Item : IUsable, ISellable
     {
-        public Item(Player player, ItemManager iM) 
+        public Item(Player player, ItemManager iM)
         {
-            Consume = 1; 
-            this.player = player; 
+            Consume = 1;
+            this.player = player;
             this.iM = iM;
             onUse += iM.EmptyRemover;
             onUse += iM.SetSelected;
         }
-        ItemManager iM;
+        protected ItemManager iM;
         public string Name { get; set; }
         public int Consume { get; set; }
         public int Price { get; set; }
         public bool isItem() { return true; }
         public bool IsSelected { get; set; }
-        //public Entity dest { get; set; }
-        Player player;
+        public void ShowNum() { Console.WriteLine($": {Consume}ea"); }
+
+        public abstract void Description();
+        public abstract ISellable GetDeep();
+        
+        protected Player player;
 
 
 
-        public void Use() 
+        public void Use()
         {
             if (CanUse())
             {
@@ -57,13 +61,13 @@ namespace Usable
         public abstract void Effect();
     }
 
-    class Portion : Item
+    abstract class Portion : Item
     {
         Player player;
-        public Portion(Player player,ItemManager iM) : base(player,iM) { this.player = player; }
+        public Portion(Player player, ItemManager iM) : base(player, iM) { this.player = player; }
         protected int grade;
 
-        public int GetHealValue() {  return grade*20; }
+        public int GetHealValue() { return grade * 20; }
 
         public override void Effect()
         {
@@ -71,16 +75,54 @@ namespace Usable
             if (player.CurHP > player.MaxHP)
                 player.CurHP = player.MaxHP;
         }
+        public override void Description()
+        {
+            Console.WriteLine($"{Name} Recover {grade * 20} HP ");
+        }
+        
+
     }
-    class LowPortion : Portion 
+    class LowPortion : Portion
     {
-        public LowPortion(Player player,ItemManager iM) :base(player,iM)
+        
+        public LowPortion(Player player, ItemManager iM) : base(player, iM)
         {
             grade = 1;
             Name = "LowPortion";
             Price = 30;
         }
+        public override LowPortion GetDeep()
+        {
+            LowPortion deep = new LowPortion(player, iM);
+            return deep;
+        }
     }
-    class NormalPortion : Portion { public NormalPortion(Player player, ItemManager iM) : base(player, iM) { grade = 2; Name = "NormalPortion"; Price = 50; } }
-    class HighPortion : Portion { public HighPortion(Player player, ItemManager iM) : base(player, iM) { grade = 3; Name = "HighPortion"; Price = 70; } }
+    class NormalPortion : Portion 
+    {
+        public NormalPortion(Player player, ItemManager iM) : base(player, iM) 
+        {
+            grade = 2; 
+            Name = "NormalPortion"; 
+            Price = 50; 
+        }
+        public override NormalPortion GetDeep()
+        {
+            NormalPortion deep = new NormalPortion(player, iM);
+            return deep;
+        }
+    }
+    class HighPortion : Portion 
+    {
+        public HighPortion(Player player, ItemManager iM) : base(player, iM)
+        {
+            grade = 3; 
+            Name = "HighPortion";
+            Price = 70; 
+        }
+        public override HighPortion GetDeep()
+        {
+            HighPortion deep = new HighPortion(player, iM);
+            return deep;
+        }
+    }
 }

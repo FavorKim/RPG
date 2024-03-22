@@ -129,16 +129,17 @@ namespace Managers
 
         public void ShowEquipped()
         {
-            Console.WriteLine("\n┌─────────────────────────┐");
+            Console.WriteLine("\n┌───────────────────────┐");
             for (int i = 0; i < (int)Parts.Max; i++)
             {
+                Console.Write($"│{(Parts)i}\t: ");
                 if (Equipped[i].Name == "Empty" )
-                    Console.WriteLine("│\t   Empty\t  │");
+                    Console.WriteLine("Empty\t\t│");
                 else
-                    Console.WriteLine($"│\t   {Equipped[i].Name}\t  │");
+                    Console.WriteLine($"{Equipped[i].Name}\t│");
                 //Console.WriteLine
             }
-            Console.WriteLine("└─────────────────────────┘");
+            Console.WriteLine("└───────────────────────┘");
             Console.ReadLine();
             Console.Clear();
         }

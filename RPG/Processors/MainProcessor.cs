@@ -11,7 +11,7 @@ namespace Processors
 {
     class MainProcessor
     {
-
+        int debugC = 0;
         public MainProcessor()
         {
             player = new Player();
@@ -23,31 +23,49 @@ namespace Processors
             monM.AddMon(new Dummy());
             monM.AddMon(new Ogre());
             monM.AddMon(new Wolf());
-            itemM = new ItemManager(player.Inventory);
+            playerItemM = new ItemManager(player.Inventory);
+            
             equipM = player.eM;
             skillM = player.GetSkillManager();
-            shopP = new ShopProcessor(player, itemM, equipM, this);
+            shopP = new ShopProcessor(player, equipM, this, playerItemM);
             indicateP = new IndicateProcess(player);
-            iStat = new MenuSelector(skillM, itemM, indicateP, equipM,player);
-            mapP = new MapProcessor(itemM, equipM, indicateP, iStat);
+            iStat = new MenuSelector(skillM, playerItemM, indicateP, equipM,player);
+            mapP = new MapProcessor(playerItemM, equipM, indicateP, iStat);
             maze = new Maze();
             innP = new Inn(player);
-            shopSel = new ShopSelector(player, shopP, itemM, equipM);
+            shopSel = new ShopSelector(player, shopP, playerItemM, equipM);
             inSel = new InnSelector(innP, player,indicateP);
-            bsel = new BattleSelector(player, skillM, itemM);
-            battleP = new BattleProcessor(player, monM, itemM, this, skillM,bsel);
+            bsel = new BattleSelector(player, skillM, playerItemM);
+            battleP = new BattleProcessor(player, monM, playerItemM, this, skillM,bsel);
             dunP = new DungeonProcessor(maze, battleP, player,iStat);
         }
 
 
         public void MainProcess()
         {
+            
+            DebugCheck(ref debugC);
+
             Entering en;
             en = mapP.Action();
             Enter(en);
         }
        
-
+        void DebugSet()
+        {
+            player.Gold += 9999;
+            foreach(Monster m in monM.Mons.Values)
+                m.SetDebugMon();
+        }
+        void DebugCheck(ref int check)
+        {
+            if (check != 0) return;
+            Console.WriteLine("is DebugMode?\n 1.Yes 2.No");
+            int num = int.Parse(Console.ReadLine());
+            if (num == 1)
+                DebugSet();
+            check++;
+        }
         
         void Enter(Entering en)
         {
@@ -74,7 +92,7 @@ namespace Processors
         #region var
         Player player;
         MonsterManager monM;
-        ItemManager itemM;
+        ItemManager playerItemM;
         BattleProcessor battleP;
         ShopProcessor shopP;
         EquipManager equipM;

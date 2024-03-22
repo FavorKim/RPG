@@ -66,7 +66,7 @@ namespace RPG.Select.Selectors
 
 
 
-            BuyItemTB buyItemTB = new BuyItemTB(sP, player);
+            BuyItemTB buyItemTB = new BuyItemTB(sP, player, iM);
             BuyEquipTB buyEquipTB = new BuyEquipTB(equipsSelP);
             Buy.Add(buyItemTB);
             Buy.Add(buyEquipTB);

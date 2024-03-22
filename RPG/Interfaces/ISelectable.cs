@@ -13,5 +13,6 @@ namespace Managers.Selectable
         // Entity dest { get; set; }
         string Name { get; set; }
         void Use();
+        void ShowNum();
     }
 }

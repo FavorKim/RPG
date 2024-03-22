@@ -23,14 +23,17 @@ namespace Managers
             if(inventory.Count > 0)
                 inventory.First().IsSelected = true;
         }
-        public void AddInven(Item item)
+        public void AddInven(Item temp)
         {
+            Item item = (Item)temp.GetDeep();
+            
             EmptyRemover();
 
             int already = 0;
             int index = 0;
             if (inventory.Count == 0)
             {
+                
                 inventory.Add(item);
             }
             else

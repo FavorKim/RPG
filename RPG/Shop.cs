@@ -17,10 +17,9 @@ namespace Shop
         ItemManager iM;
         EquipManager eM;
         Player player;
-        SelectProcessor<Item> selP;
 
 
-        public Merchant(ItemManager iM, EquipManager eM, Player player)
+        public Merchant( EquipManager eM, Player player, ItemManager iM)
         {
             this.iM = iM;
             this.eM = eM;
@@ -63,28 +62,35 @@ namespace Shop
         public void Purchase(Player player, ISellable sellable)
         {
             if (sellable == null) return;
+
             if (sellable.Price > player.Gold)
                 Console.WriteLine("Not Enough Gold");
             else
             {
                 player.Gold -= sellable.Price;
-                if (sellable.isItem())
+                if (sellable is Item)
+                {
                     iM.AddInven((Item)sellable);
-                else
+                }
+                else if (sellable is Equip)
                 {
                     if (lowEquipList.Contains(sellable))
                     {
-                        eM.EinvenAdd((Equip)sellable);
-                        lowEquipList.Remove((Equip)sellable);
+                        eM.EinvenAdd((Equip)sellable.GetDeep());
                         if (lowEquipList.Count > 0)
                             lowEquipList.First().IsSelected = true;
                     }
                     else if (NormalEquipList.Contains(sellable))
                     {
-                        eM.EinvenAdd((Equip)sellable);
-                        NormalEquipList.Remove((Equip)sellable);
+                        eM.EinvenAdd((Equip)sellable.GetDeep());
                         if (NormalEquipList.Count > 0)
                             NormalEquipList.First().IsSelected = true;
+                    }
+                    else if (HighEquipList.Contains(sellable))
+                    {
+                        eM.EinvenAdd((Equip)sellable.GetDeep());
+                        if (HighEquipList.Count > 0)
+                            HighEquipList.First().IsSelected = true;
                     }
                 }
             }

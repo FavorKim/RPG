@@ -22,6 +22,7 @@ namespace Selectable
         public bool IsSelected { get; set; }
         public abstract void Use();
         public string Name { get; set; }
+        public void ShowNum() { Console.WriteLine("");  }
         public bool Yes()
         {
             Console.WriteLine("Yes : Enter \t No : ESC");
@@ -37,23 +38,14 @@ namespace Selectable
         }
     }
 
-    class YesNO
+    
+    class YesNO : TextBox
     {
-        public bool Yes()
+        public override void Use()
         {
-            Console.WriteLine("Yes : Enter \t No : ESC");
-            while (true)
-            {
-                ConsoleKeyInfo key = Console.ReadKey();
-                if (key.Key == ConsoleKey.Enter)
-                    return true;
-                else if (key.Key == ConsoleKey.Escape)
-                    return false;
-                else continue;
-            }
+            throw new NotImplementedException();
         }
     }
-
 
 
 
@@ -96,7 +88,7 @@ namespace Selectable
         }
         public override void Use()
         {
-            sM.selP.ShowCol();
+            sM.selP.SelectReturn();
         }
     }
     class EquipTB : TextBox
@@ -179,27 +171,30 @@ namespace Selectable
     {
         ShopProcessor sP;
         Player player;
-        public BuyItemTB(ShopProcessor sP, Player player)
+        ItemManager iM;
+        public BuyItemTB(ShopProcessor sP, Player player, ItemManager iM)
         {
             this.sP = sP;
             Name = "Buy Item";
             this.player = player;
+            this.iM = iM;
         }
         public override void Use()
         {
             ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
-
-            Portion temp = (Portion)sP.itemSelP.SelectReturn();
-
+            Item temp = (Item)sP.itemSelP.SelectReturn();
+            
             if (temp == null) return;
-            Console.WriteLine($"{temp.Name} : Recover {temp.GetHealValue()}\n");
+
+            temp.Description();
             Console.WriteLine($"{temp.Name}'s Price is {temp.Price}.");
             Console.WriteLine("Do You Really Want to Buy?\n");
 
             if (Yes())
             {
-                Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
+                if (player.Gold >= temp.Price)
+                    Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
                 sP.GetShop().Purchase(sP.GetPlayer(), temp);
                 Console.ReadLine();
                 Console.Clear();
@@ -356,7 +351,10 @@ namespace Selectable
         }
         void Sell(Item item)
         {
-            player.Inventory.Remove(item);
+            if (item.Consume > 1)
+                item.Consume--;
+            else
+                player.Inventory.Remove(item);
             player.Gold += item.Price / 5;
         }
     }
@@ -451,7 +449,6 @@ namespace Selectable
                 prev.Action();
         }
     }
-
     class BattleItemTB : TextBox
     {
         ItemManager iM;
@@ -473,7 +470,6 @@ namespace Selectable
                 prev.Action();
         }
     }
-
     class BattleAttackTB : TextBox
     {
         Player player;
@@ -495,7 +491,7 @@ namespace Selectable
 
     }
 
-
+    
 
 }
 /*
