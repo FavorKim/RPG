@@ -15,7 +15,7 @@ namespace Managers
         public ItemManager(List<Item> inventory) 
         {
             this.inventory = inventory;
-            selectP = new SelectProcessor<Item>(inventory, true);
+            selectP = new SelectProcessor<Item>(inventory);
         }
         
         public void SetSelected()

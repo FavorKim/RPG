@@ -23,18 +23,14 @@ namespace Processors
 
         public bool ListisEmpty() { return list.Count == 0; }
 
-        public SelectProcessor(List<T> list, bool b)
+        public SelectProcessor(List<T> list)
         {
             this.list = list;
-            if (b == true)
-                buffer = new Buffer<T>(list, ShowCol);
-            else
-                buffer = new Buffer<T>(list, ShowRow);
-
+            buffer = new Buffer<T>(list, Show);
         }
 
 
-
+        public Buffer<T> GetBuffer() { return buffer; }
 
         public ISelectable SelectReturn()
         {
@@ -151,7 +147,7 @@ namespace Processors
             Cleaner.CleanBox();
         }
 
-        public void ShowCol()
+        public void Show()
         {
             Cleaner.CleanBox();
             if (list.Count == 0)
@@ -179,39 +175,7 @@ namespace Processors
             }
             Console.WriteLine("Prev (ESC)");
         }
-        void ShowRow()
-        {
-            if (list.Count <= 0)
-            {
-                Console.WriteLine("\nEmpty.");
-                Console.ReadLine();
 
-                return;
-            }
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (!list[i].IsSelected)
-                {
-                    Console.Write($"{i + 1}. {list[i].Name} ");
-                }
-                else if (i == list.Count - 1 && !list[i].IsSelected)
-                    Console.Write($"{i + 1}. {list[i].Name} 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　");
-
-                else if (list[i].IsSelected)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-
-                    Console.Write(" ▶ ");
-                    Console.Write($"{i + 1}. {list[i].Name} ");
-                    if (i == list.Count - 1)
-                        Console.Write("");
-                    Console.ResetColor();
-                }
-                else if (i == list.Count - 1)
-                    Console.Write($"{i + 1}. {list[i].Name}");
-            }
-            Console.WriteLine("Prev (ESC)");
-        }
 
         ISelectable GetSelected()
         {

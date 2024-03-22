@@ -21,7 +21,7 @@ namespace Usable
         public int Price { get; set; }
         public bool isItem() { return true; }
         public bool IsSelected { get; set; }
-        public void ShowNum() { Console.Write($" : {Price}Gold"); }
+        public void ShowNum() { Console.Write($" : {Consume} ea"); }
 
         public abstract void Description();
         public abstract ISellable GetDeep();
@@ -79,6 +79,7 @@ namespace Usable
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine($"{Name} Recover {grade * 20} HP ");
+            Console.WriteLine($"Price is {Price} Gold");
             Console.ResetColor();
         }
         

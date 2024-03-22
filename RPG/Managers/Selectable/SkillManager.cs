@@ -25,7 +25,7 @@ namespace Managers
             skills.Add(new Slash(player));
             skills.Add(new Rage(player));
             player.OnLevelUp += SetSkills;
-            selP = new SelectProcessor<Skill>(SkillsUsable, true);
+            selP = new SelectProcessor<Skill>(SkillsUsable);
         }
 
         public Skill CanGet(Skill skill)

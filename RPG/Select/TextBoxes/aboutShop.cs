@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Usable;
 
-namespace TextBoxes
+namespace Selectable
 {
     class BuyTB : TextBox
     {
@@ -55,7 +55,6 @@ namespace TextBoxes
             return;
         }
     }
-
 
     class BuyItemTB : TextBox
     {
@@ -131,7 +130,8 @@ namespace TextBoxes
 
             if (Yes())
             {
-                Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
+                if (player.Gold >= temp.Price)
+                    Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
                 shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
@@ -163,7 +163,8 @@ namespace TextBoxes
 
             if (Yes())
             {
-                Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
+                if (player.Gold >= temp.Price)
+                    Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
                 shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
@@ -195,7 +196,8 @@ namespace TextBoxes
 
             if (Yes())
             {
-                Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
+                if (player.Gold >= temp.Price)
+                    Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
                 shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
@@ -204,7 +206,6 @@ namespace TextBoxes
                 return;
         }
     }
-
 
     class SellItemTB : TextBox
     {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Usable;
 
-namespace RPG.Select.TextBoxes
+namespace Selectable
 {
     class BattleSkillTB : TextBox
     {

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace RPG.Select.TextBoxes
+namespace Selectable
 {
     class invenTB : TextBox
     {

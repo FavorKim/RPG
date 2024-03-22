@@ -29,10 +29,10 @@ namespace Merchant
             this.iM = iM;
             this.eM = eM;
             this.player = player;
-            itemSelP = new SelectProcessor<Item>(itemList, true);
-            lowEquipSelP = new SelectProcessor<Equip>(lowEquipList, true);
-            normalEquipSelP = new SelectProcessor<Equip>(NormalEquipList, true);
-            highEquipSelP = new SelectProcessor<Equip> (HighEquipList, true);
+            itemSelP = new SelectProcessor<Item>(itemList);
+            lowEquipSelP = new SelectProcessor<Equip>(lowEquipList);
+            normalEquipSelP = new SelectProcessor<Equip>(NormalEquipList);
+            highEquipSelP = new SelectProcessor<Equip> (HighEquipList);
 
             AddItems();
 

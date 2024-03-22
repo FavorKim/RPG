@@ -23,7 +23,7 @@ namespace Equipments
         public string Name { get; set; }
         public bool isItem() { return false; }
         public bool IsSelected { get; set; }
-        public void ShowNum() { Console.Write($" : {Price} Gold"); }
+        public void ShowNum() { Console.Write($""); }
         public virtual ISellable GetDeep() 
         {
             Equip deep = new Equip(player);

@@ -13,5 +13,6 @@ namespace Equipments
         string Name { get; set; }
         bool isItem();
         public ISellable GetDeep();
+        
     }
 }

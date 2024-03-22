@@ -18,6 +18,7 @@ namespace Processors
         int width;
         int height;
 
+
         public Buffer(int size, Action print, T[] org)
         {
             buffer = new T[size];

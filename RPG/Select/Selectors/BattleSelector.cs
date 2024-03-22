@@ -60,7 +60,7 @@ namespace RPG.Select.Selectors
         void Init()
         {
             battle = new List<TextBox>();
-            bSelP = new SelectProcessor<TextBox>(battle, false);
+            bSelP = new SelectProcessor<TextBox>(battle);
 
             atk = new BattleAttackTB(player);
             skil = new BattleSkillTB(player, sM, this);

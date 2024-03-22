@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Equipments;
+using Usable;
 
 namespace RPG.Select.Selectors
 {
@@ -23,23 +25,23 @@ namespace RPG.Select.Selectors
         List<TextBox> equipsList;
         public SelectProcessor<TextBox> equipsSelP;
 
-        Merchant.Shop shop;
+        Shop shop;
         Player player;
         ItemManager iM;
         EquipManager eM;
 
-        public ShopSelector(Player player, Merchant.Shop shop, ItemManager iM, EquipManager eM)
+        public ShopSelector(Player player, Shop shop, ItemManager iM, EquipManager eM)
         {
-            this.player= player;
-            this.iM= iM;
-            this.eM= eM;
+            this.player = player;
+            this.iM = iM;
+            this.eM = eM;
             this.shop = shop;
             Init();
         }
 
         public static void PrintStat(Player player)
         {
-            Console.SetCursorPosition(0,0);
+            Console.SetCursorPosition(0, 0);
             Console.WriteLine($"Your Remaining Gold : {player.Gold}");
             Console.WriteLine($"Your Level : {player.LV}");
         }
@@ -47,18 +49,18 @@ namespace RPG.Select.Selectors
         void Init()
         {
             first = new List<TextBox>();
-            firstSP = new SelectProcessor<TextBox>(first, true);
+            firstSP = new SelectProcessor<TextBox>(first);
 
             Buy = new List<TextBox>();
-            buySP = new SelectProcessor<TextBox>(Buy, true);
+            buySP = new SelectProcessor<TextBox>(Buy);
 
             Sell = new List<TextBox>();
-            sellSP = new SelectProcessor<TextBox>(Sell, true);
+            sellSP = new SelectProcessor<TextBox>(Sell);
 
             equipsList = new List<TextBox>();
-            equipsSelP = new SelectProcessor<TextBox>(equipsList, true);
+            equipsSelP = new SelectProcessor<TextBox>(equipsList);
 
-           
+
             BuyTB buyTB = new BuyTB(this);
             SellTB sellTB = new SellTB(this);
 
@@ -79,13 +81,15 @@ namespace RPG.Select.Selectors
 
 
             BuyLowEquipTB low = new BuyLowEquipTB(shop, player);
-            BuyNormalEquipTB nor = new BuyNormalEquipTB(shop,player);
+            BuyNormalEquipTB nor = new BuyNormalEquipTB(shop, player);
             BuyHighEquipTB high = new BuyHighEquipTB(shop, player);
             equipsList.Add(low);
             equipsList.Add(nor);
             equipsList.Add(high);
-            
+
         }
+
+       
     }
 }
 

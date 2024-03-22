@@ -39,7 +39,7 @@ namespace Select
             selects = new List<TextBox>();
             Init();
 
-            selP = new SelectProcessor<TextBox>(selects, true);
+            selP = new SelectProcessor<TextBox>(selects);
         }
         void Init()
         {

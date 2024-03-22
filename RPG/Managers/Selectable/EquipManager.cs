@@ -21,7 +21,7 @@ namespace Managers
         {
             Equipped = new List<Equip>();
             EInven = new List<Equip>();
-            EinveSelP = new SelectProcessor<Equip>(EInven, true);
+            EinveSelP = new SelectProcessor<Equip>(EInven);
         }
 
         void InitEquipped()
