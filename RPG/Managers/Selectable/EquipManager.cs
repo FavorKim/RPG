@@ -114,18 +114,6 @@ namespace Managers
         }
 
 
-        //Will be Deleted
-        public void EinvenIndicator()
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("\n┌───Equipments Inventory──┐");
-            for (int i = 0; i < EInven.Count; i++)
-                Console.WriteLine($"│\t{i + 1}. {EInven[i].Name}\t  │");
-            Console.WriteLine("└─────────────────────────┘");
-            Console.ResetColor();
-            Console.ReadLine();
-            Console.Clear();
-        }
 
         public void ShowEquipped()
         {

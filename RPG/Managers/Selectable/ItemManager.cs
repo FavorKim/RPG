@@ -68,29 +68,6 @@ namespace Managers
         }
 
 
-        //Will be Deleted
-        public void InvenIndicator()
-        {
-            EmptyRemover();
-
-            if (inventory.Count == 0)
-            {
-                Console.WriteLine("Inventory is Empty");
-                Console.ReadLine();
-                Console.Clear();
-                return;
-            }
-
-            Console.ForegroundColor = ConsoleColor.White;
-            //Console.WriteLine("─────────────Inventory───────────");
-            Console.ResetColor();
-            Console.ReadLine();
-            /*
-            for (int i = 0; i < inventory.Count; i++)
-                Console.WriteLine($"│\t{i + 1}. {inventory[i].Name} : {inventory[i].Consume}ea\t  │");
-            Console.WriteLine("└─────────────────────────────────┘");
-            */
-        }
 
 
     }

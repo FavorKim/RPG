@@ -5,6 +5,7 @@ using Managers.Selectable;
 using Mapper;
 using Processors;
 using RPG.Select.Selectors;
+using Merchant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -169,12 +170,12 @@ namespace Selectable
 
     class BuyItemTB : TextBox
     {
-        ShopProcessor sP;
+        Merchant.Shop shop;
         Player player;
         ItemManager iM;
-        public BuyItemTB(ShopProcessor sP, Player player, ItemManager iM)
+        public BuyItemTB(Merchant.Shop shop, Player player, ItemManager iM)
         {
-            this.sP = sP;
+            this.shop = shop;
             Name = "Buy Item";
             this.player = player;
             this.iM = iM;
@@ -183,7 +184,7 @@ namespace Selectable
         {
             ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
-            Item temp = (Item)sP.itemSelP.SelectReturn();
+            Item temp = (Item)shop.itemSelP.SelectReturn();
             
             if (temp == null) return;
 
@@ -194,7 +195,7 @@ namespace Selectable
             {
                 if (player.Gold >= temp.Price)
                     Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
-                sP.GetShop().Purchase(sP.GetPlayer(), temp);
+                shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -220,11 +221,11 @@ namespace Selectable
 
     class BuyLowEquipTB : TextBox
     {
-        ShopProcessor sP;
         Player player;
-        public BuyLowEquipTB(ShopProcessor sP, Player player)
+        Merchant.Shop shop;
+        public BuyLowEquipTB(Merchant.Shop shop, Player player)
         {
-            this.sP = sP;
+            this.shop = shop;
             Name = "Buy Low Equipment";
             this.player = player;
         }
@@ -233,7 +234,7 @@ namespace Selectable
             ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
 
-            Equip temp = (Equip)sP.lowEquipSelP.SelectReturn();
+            Equip temp = (Equip)shop.lowEquipSelP.SelectReturn();
 
             if (temp == null) return;
             temp.ShowStat();
@@ -242,7 +243,7 @@ namespace Selectable
             if (Yes())
             {
                 Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
-                sP.GetShop().Purchase(sP.GetPlayer(), temp);
+                shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -252,11 +253,11 @@ namespace Selectable
     }
     class BuyNormalEquipTB : TextBox
     {
-        ShopProcessor sP;
+        Merchant.Shop shop;
         Player player;
-        public BuyNormalEquipTB(ShopProcessor sP, Player player)
+        public BuyNormalEquipTB(Merchant.Shop shop, Player player)
         {
-            this.sP = sP;
+            this.shop = shop;
             Name = "Buy Normal Equipment";
             this.player = player;
         }
@@ -265,7 +266,7 @@ namespace Selectable
             ShopSelector.PrintStat(player);
             Cleaner.CleanBox();
 
-            Equip temp = (Equip)sP.normalEquipSelP.SelectReturn();
+            Equip temp = (Equip)shop.normalEquipSelP.SelectReturn();
 
             if (temp == null) return;
             temp.ShowStat();
@@ -274,7 +275,7 @@ namespace Selectable
             if (Yes())
             {
                 Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
-                sP.GetShop().Purchase(sP.GetPlayer(), temp);
+                shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
             }
@@ -284,11 +285,11 @@ namespace Selectable
     }
     class BuyHighEquipTB : TextBox
     {
-        ShopProcessor sP;
+        Merchant.Shop shop;
         Player player;
-        public BuyHighEquipTB(ShopProcessor sP, Player player)
+        public BuyHighEquipTB(Merchant.Shop shop, Player player)
         {
-            this.sP = sP;
+            this.shop = shop;
             Name = "Buy High Equipment";
             this.player = player;
         }
@@ -297,7 +298,7 @@ namespace Selectable
             
             Cleaner.CleanBox();
             ShopSelector.PrintStat(player);
-            Equip temp = (Equip)sP.highEquipSelP.SelectReturn();
+            Equip temp = (Equip)shop.highEquipSelP.SelectReturn();
 
             if (temp == null) return;
             temp.ShowStat();
@@ -306,7 +307,7 @@ namespace Selectable
             if (Yes())
             {
                 Console.WriteLine($"You Bought {temp.Name} at {temp.Price}Gold");
-                sP.GetShop().Purchase(sP.GetPlayer(), temp);
+                shop.Purchase(player, temp);
                 Console.ReadLine();
                 Console.Clear();
             }

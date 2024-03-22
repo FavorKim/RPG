@@ -6,6 +6,7 @@ using Select;
 using Equipments;
 using RPG.Select.Selectors;
 using Selectors;
+using Merchant;
 
 namespace Processors
 {
@@ -27,20 +28,19 @@ namespace Processors
             
             equipM = player.eM;
             skillM = player.GetSkillManager();
-            shopP = new ShopProcessor(player, equipM, this, playerItemM);
+            shop = new Shop(equipM, player, playerItemM);
             indicateP = new IndicateProcess(player);
             iStat = new MenuSelector(skillM, playerItemM, indicateP, equipM,player);
             mapP = new MapProcessor(playerItemM, equipM, indicateP, iStat);
             maze = new Maze();
             innP = new Inn(player);
-            shopSel = new ShopSelector(player, shopP, playerItemM, equipM);
+            shopSel = new ShopSelector(player, shop, playerItemM, equipM);
             inSel = new InnSelector(innP, player,indicateP);
             bsel = new BattleSelector(player, skillM, playerItemM);
             battleP = new BattleProcessor(player, monM, playerItemM, this, skillM,bsel);
             dunP = new DungeonProcessor(maze, battleP, player,iStat);
         }
-
-
+        
         public void MainProcess()
         {
             
@@ -94,7 +94,7 @@ namespace Processors
         MonsterManager monM;
         ItemManager playerItemM;
         BattleProcessor battleP;
-        ShopProcessor shopP;
+        Shop shop;
         EquipManager equipM;
         Maze maze;
         MapProcessor mapP;

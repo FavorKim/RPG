@@ -2,6 +2,7 @@
 using Managers;
 using Processors;
 using Selectable;
+using Merchant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +23,17 @@ namespace RPG.Select.Selectors
         List<TextBox> equipsList;
         public SelectProcessor<TextBox> equipsSelP;
 
-        ShopProcessor sP;
+        Merchant.Shop shop;
         Player player;
         ItemManager iM;
         EquipManager eM;
 
-        public ShopSelector(Player player, ShopProcessor sP, ItemManager iM, EquipManager eM)
+        public ShopSelector(Player player, Merchant.Shop shop, ItemManager iM, EquipManager eM)
         {
             this.player= player;
             this.iM= iM;
             this.eM= eM;
-            this.sP= sP;
+            this.shop = shop;
             Init();
         }
 
@@ -66,7 +67,7 @@ namespace RPG.Select.Selectors
 
 
 
-            BuyItemTB buyItemTB = new BuyItemTB(sP, player, iM);
+            BuyItemTB buyItemTB = new BuyItemTB(shop, player, iM);
             BuyEquipTB buyEquipTB = new BuyEquipTB(equipsSelP);
             Buy.Add(buyItemTB);
             Buy.Add(buyEquipTB);
@@ -77,9 +78,9 @@ namespace RPG.Select.Selectors
             Sell.Add(sellEquipTB);
 
 
-            BuyLowEquipTB low = new BuyLowEquipTB(sP, player);
-            BuyNormalEquipTB nor = new BuyNormalEquipTB(sP,player);
-            BuyHighEquipTB high = new BuyHighEquipTB(sP, player);
+            BuyLowEquipTB low = new BuyLowEquipTB(shop, player);
+            BuyNormalEquipTB nor = new BuyNormalEquipTB(shop,player);
+            BuyHighEquipTB high = new BuyHighEquipTB(shop, player);
             equipsList.Add(low);
             equipsList.Add(nor);
             equipsList.Add(high);

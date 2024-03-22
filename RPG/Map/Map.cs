@@ -290,6 +290,6 @@ if 10 > n, n = □
 */
 
 /*
-11 = dungeon, 12 = Inn, 13 = Shop
+11 = dungeon, 12 = Inn, 13 = Merchant
  */
 

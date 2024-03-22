@@ -51,7 +51,6 @@ namespace Selectors
             Console.WriteLine($"You Have {player.Gold}Gold");
             if (TB.Yes())
                 inn.Rest();
-
         }
     }
 }
