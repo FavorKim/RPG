@@ -188,7 +188,6 @@ namespace Mapper
                         Console.Clear();
                     }
                     break;
-
                 case ConsoleKey.RightArrow:
                     if (pX % ((int)MapSize.Width - 1) == 0 && pX != 0)
                         break;
@@ -200,7 +199,6 @@ namespace Mapper
                         Console.Clear();
                     }
                     break;
-
                 case ConsoleKey.UpArrow:
                     if (pY == 0)
                         break;
@@ -212,7 +210,6 @@ namespace Mapper
                         Console.Clear();
                     }
                     break;
-
                 case ConsoleKey.DownArrow:
                     if (pY >= (int)MapSize.Height - 1)
                         break;
@@ -224,7 +221,6 @@ namespace Mapper
                         Console.Clear();
                     }
                     break;
-
                 case ConsoleKey.Escape:
                     iStat.selP.SelectVoid();
                     Cleaner.CleanBox();

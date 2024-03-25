@@ -115,7 +115,7 @@ namespace Processors
                 if (list.Count <= 0)
                 {
                     Cleaner.CleanBox();
-                    Console.WriteLine("\n\n Empty(select void)");
+                    Console.WriteLine("\n\n Empty");
                     Console.ReadLine();
                     break;
                 }
@@ -123,13 +123,6 @@ namespace Processors
                 c = GetChoose();
                 Choice(c);
                 buffer.ShowBox();
-                if (list.Count <= 0)
-                {
-                    Cleaner.CleanBox();
-                    Console.WriteLine("\n\n Empty (select void in roop)");
-                    Console.ReadLine();
-                    break;
-                }
                 if (c == Choose.EXIT)
                     break;
                 if (c == Choose.SELECT)
@@ -150,7 +143,7 @@ namespace Processors
             if (list.Count == 0)
             {
                 Cleaner.CleanBox();
-                Console.WriteLine("Empty(show)");
+                Console.WriteLine("Empty");
                 Console.ReadLine();
                 return;
             }
@@ -209,7 +202,7 @@ namespace Processors
         {
             if (list.Count == 0)
             {
-                Console.WriteLine("getChoiceEmpty");
+                Console.WriteLine("Empty");
                 c = Choose.EXIT;
                 return;
             }
