@@ -51,7 +51,6 @@ namespace Entities
             OnLevelUp += LevelUpStat;
             sM = new SkillManager(this);
             skills = sM.GetSkillsUsable();
-            //Einven = new EquipManager(this).GetEquipped();
         }
 
 

@@ -277,19 +277,5 @@ namespace Mapper
 
 
 }
-/*
-0 = ■
-1 = │
-2 = ─
-3 = └
-4 = ┘
-5 = ┌
-6 = ┐
-7 = Character
-if 10 > n, n = □
-*/
 
-/*
-11 = dungeon, 12 = Inn, 13 = Merchant
- */
 

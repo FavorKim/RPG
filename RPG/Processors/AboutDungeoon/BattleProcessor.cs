@@ -1,13 +1,6 @@
 ﻿using Entities;
 using Managers;
-using Managers.Selectable;
 using RPG.Select.Selectors;
-using Selectable;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Usable;
 
 namespace Processors
@@ -108,8 +101,6 @@ namespace Processors
             Console.Clear();
             IndicateProcess.BattleIndicator(player, mon);
             bsel.Action();
-            
-            
         }
 
     }

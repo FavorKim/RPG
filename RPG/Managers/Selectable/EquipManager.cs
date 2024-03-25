@@ -127,7 +127,6 @@ namespace Managers
                     Console.WriteLine("Sabor\t\t│");
                 else
                     Console.WriteLine($"{Equipped[i].Name}\t│");
-                //Console.WriteLine
             }
             Console.WriteLine("└───────────────────────┘");
             Console.ReadLine();

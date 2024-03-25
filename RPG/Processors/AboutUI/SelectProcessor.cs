@@ -48,7 +48,6 @@ namespace Processors
 
             SetList();
 
-            //buffer
             Cleaner.CleanBox();
             buffer.ShowBox();
             Choose c = Choose.PREV;
@@ -113,7 +112,6 @@ namespace Processors
             }
             SetList();
 
-            //buffer
             Cleaner.CleanBox();
             buffer.ShowBox();
 

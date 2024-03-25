@@ -54,7 +54,3 @@ namespace Selectors
         }
     }
 }
-/*
- yes or no
- 
- */

@@ -284,7 +284,6 @@ namespace CMaze
                     player.SetWoW(Tile.PLAYER);
                     roomtomove.SetWoW(Tile.ROAD);
                     moveCount++;
-                    //if (moveCount % 3 == 0)
                     OnMove();
                     return Tile.ROAD;
                 }
