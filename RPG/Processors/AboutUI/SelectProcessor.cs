@@ -1,12 +1,4 @@
-﻿using Equipments;
-using Managers.Selectable;
-using Mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Usable;
+﻿using Managers.Selectable;
 
 namespace Processors
 {
@@ -106,7 +98,7 @@ namespace Processors
             if (list.Count <= 0)
             {
                 Cleaner.CleanBox();
-                Console.WriteLine("\n\n Empty");
+                Console.WriteLine("\n\n Empty(select void)");
                 Console.ReadLine();
                 return;
             }
@@ -120,6 +112,13 @@ namespace Processors
 
             while (c != Choose.EXIT)
             {
+                if (list.Count <= 0)
+                {
+                    Cleaner.CleanBox();
+                    Console.WriteLine("\n\n Empty(select void)");
+                    Console.ReadLine();
+                    break;
+                }
                 buffer.ShowBox();
                 c = GetChoose();
                 Choice(c);
@@ -127,9 +126,9 @@ namespace Processors
                 if (list.Count <= 0)
                 {
                     Cleaner.CleanBox();
-                    Console.WriteLine("\n\n Empty");
+                    Console.WriteLine("\n\n Empty (select void in roop)");
                     Console.ReadLine();
-                    return;
+                    break;
                 }
                 if (c == Choose.EXIT)
                     break;
@@ -151,8 +150,9 @@ namespace Processors
             if (list.Count == 0)
             {
                 Cleaner.CleanBox();
-                Console.WriteLine("Empty");
+                Console.WriteLine("Empty(show)");
                 Console.ReadLine();
+                return;
             }
 
             for (int i = 0; i < list.Count; i++)

@@ -1,10 +1,4 @@
-﻿using Entities;
-using Processors;
-using Usable;
-using Managers;
-using System.Diagnostics;
-using System.Windows;
-
+﻿using Processors;
 namespace Main
 {
     internal class Program

@@ -1,8 +1,4 @@
 ﻿using Entities;
-using Processors;
-using System.Reflection.Metadata.Ecma335;
-using Usable;
-using Equipments;
 
 namespace Managers
 {

@@ -1,8 +1,6 @@
 ﻿using Managers;
 using Mapper;
 using Select;
-using Equipments;
-
 namespace Processors
 {
     class MapProcessor

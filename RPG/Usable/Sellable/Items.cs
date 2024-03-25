@@ -1,7 +1,6 @@
 ﻿using Entities;
 using Equipments;
 using Managers;
-using Managers.Selectable;
 
 namespace Usable
 {

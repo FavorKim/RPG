@@ -1,8 +1,6 @@
 ﻿using Usable;
 using Managers;
-using Processors;
 using Equipments;
-using System.Numerics;
 
 namespace Entities
 {

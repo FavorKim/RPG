@@ -3,13 +3,6 @@ using Managers;
 using Processors;
 using Selectable;
 using Merchant;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Equipments;
-using Usable;
 
 namespace RPG.Select.Selectors
 {

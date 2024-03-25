@@ -1,11 +1,8 @@
 ﻿using CRoom;
-using System.Buffers;
-using Mapper;
 using Entities;
 using Processors;
 using Managers;
 using Equipments;
-using System.Numerics;
 
 namespace CMaze
 {

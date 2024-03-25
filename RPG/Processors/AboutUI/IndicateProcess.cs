@@ -1,7 +1,4 @@
 ﻿using Entities;
-using Managers;
-using Equipments;
-using System.ComponentModel.Design;
 
 namespace Processors
 {

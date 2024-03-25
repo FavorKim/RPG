@@ -3,7 +3,6 @@ using Entities;
 using Managers;
 using Mapper;
 using Select;
-using Equipments;
 using RPG.Select.Selectors;
 using Selectors;
 using Merchant;

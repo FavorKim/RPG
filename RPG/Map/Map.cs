@@ -2,7 +2,6 @@
 using Managers;
 using Processors;
 using Select;
-using Equipments;
 using Selectable;
 
 namespace Mapper
@@ -227,16 +226,8 @@ namespace Mapper
                     break;
 
                 case ConsoleKey.Escape:
-                    TextBox temp = (TextBox)iStat.selP.SelectReturn();
-                    
-                    if(temp != null)
-                    {
-                        temp.Use();
-                        Cleaner.CleanBox();
-                        break;
-                    }
+                    iStat.selP.SelectVoid();
                     Cleaner.CleanBox();
-
                     break;
                 default:
                     en = Entering.Fail;

@@ -1,10 +1,6 @@
 ﻿using Entities;
 using Managers.Selectable;
 using Processors;
-using Selectable;
-using System.Diagnostics;
-using System.Numerics;
-using System.Xml.Linq;
 
 namespace Equipments
 {

@@ -2,13 +2,6 @@
 using Entities;
 using Select;
 using Selectable;
-using Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Processors
 {
     class DungeonProcessor

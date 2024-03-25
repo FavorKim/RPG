@@ -1,19 +1,6 @@
-﻿using Entities;
-using Equipments;
-using Managers;
-using Managers.Selectable;
+﻿using Managers.Selectable;
 using Mapper;
 using Processors;
-using RPG.Select.Selectors;
-using Merchant;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Usable;
 
 namespace Selectable
 {
