@@ -1,4 +1,6 @@
 ﻿using Processors;
+using RPG.Select.Selectors;
+
 namespace Main
 {
     internal class Program
@@ -6,8 +8,8 @@ namespace Main
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-            MainProcessor main = new MainProcessor();
-            main.MainProcess();
+            IntroSelP selP = new IntroSelP();
+            selP.selP.SelectVoid();
         }
     }
 }
