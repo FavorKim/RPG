@@ -63,6 +63,8 @@ namespace Managers
                 player.Atk -= 10;
                 player.MaxHP -= 30;
                 player.CurHP -= 30;
+                player.IsRaged = false;
+
                 Console.WriteLine("Rage Over!");
                 Console.ReadLine();
                 Console.WriteLine("Player's Status Reset");

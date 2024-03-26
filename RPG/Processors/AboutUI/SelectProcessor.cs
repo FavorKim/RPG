@@ -107,7 +107,6 @@ namespace Processors
             Cleaner.CleanBox();
             buffer.ShowBox();
 
-
             Choose c = Choose.PREV;
 
             while (c != Choose.EXIT)

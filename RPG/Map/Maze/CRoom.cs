@@ -8,6 +8,7 @@ namespace CRoom
             Room.maze = maze;
         }
 
+
         int x;
         int y;
         Tile wayorWall;
@@ -20,6 +21,7 @@ namespace CRoom
         Room[] rooms;
         Stack<Room> nexts;
         static Room[] maze;
+
 
         public Room(int x, int y)
         {

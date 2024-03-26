@@ -73,8 +73,5 @@ namespace Processors
             Console.SetCursorPosition(0, 14);
             print();
         }
-
-
-
     }
 }

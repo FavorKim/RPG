@@ -33,7 +33,10 @@ namespace Equipments
         Player player;
 
 
-
+        public void SetDebug()
+        {
+            equipLV = 1;
+        }
 
         public void Use()
         {

@@ -55,6 +55,7 @@ namespace Processors
             player.Gold += 9999;
             foreach(Monster m in monM.Mons.Values)
                 m.SetDebugMon();
+            
         }
         void DebugCheck(ref int check)
         {

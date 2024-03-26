@@ -59,7 +59,7 @@ namespace Processors
             Console.WriteLine("└───────────────────────────────────────┘");
             Console.ResetColor();
             Console.ReadLine();
-            Console.Clear();
+            Cleaner.CleanBox();
 
         }
     }
